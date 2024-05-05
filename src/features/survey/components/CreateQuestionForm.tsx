@@ -1,6 +1,16 @@
-import { useState } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
-import { TextInput, Portal, Modal, Button, IconButton, Text } from 'react-native-paper';
+import { TextInput, Portal, Modal, Button, IconButton, Text, Switch } from 'react-native-paper';
+import { useSelector, useDispatch } from 'react-redux';
+
+import {
+  addChoice,
+  deleteChoice,
+  updateChoice,
+  updateMultipleChoice,
+  updateQuestion,
+} from '../utils/questionsSlice';
+
+import { RootState } from '@/stores/appStore';
 
 type Props = {
   modalVisibility: boolean;
@@ -8,28 +18,23 @@ type Props = {
 };
 
 export const CreateQuestionForm = ({ modalVisibility, handleCloseQuestionForm }: Props) => {
-  const [question, setQuestion] = useState('');
-  const [choices, setChoices] = useState<string[]>([]);
+  const dispatch = useDispatch();
+  const {
+    multipleChoice,
+    question,
+    values: choices,
+  } = useSelector((state: RootState) => state.question.choices);
 
-  const handleQuestionChange = (e: string) => setQuestion(e);
+  const handleQuestionChange = (e: string) => dispatch(updateQuestion(e));
 
-  const handleChoiceChange = (e: string, index: number) => {
-    const currentChoices = [...choices];
-    currentChoices[index] = e;
-    setChoices(currentChoices);
-  };
+  const handleSwitchValueChange = () => dispatch(updateMultipleChoice());
 
-  const handleAddChoice = () => {
-    const currentChoices = [...choices];
-    currentChoices.push('');
-    setChoices(currentChoices);
-  };
+  const handleChoiceChange = (e: string, index: number) =>
+    dispatch(updateChoice({ value: e, index }));
 
-  const handleRemoveChoice = (index: number) => {
-    const currentChoices = [...choices];
-    currentChoices.splice(index, 1);
-    setChoices(currentChoices);
-  };
+  const handleAddChoice = () => dispatch(addChoice(''));
+
+  const handleRemoveChoice = (index: number) => dispatch(deleteChoice(index));
 
   const handleSaveChoices = () => {
     console.log('choices are saved');
@@ -55,11 +60,22 @@ export const CreateQuestionForm = ({ modalVisibility, handleCloseQuestionForm }:
         contentContainerStyle={styles.container}
         dismissable={false}
         dismissableBackButton={false}>
-        <View style={{ flexDirection: 'row', alignSelf: 'flex-end' }}>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            width: '100%',
+          }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Text style={{ marginRight: 10 }}>Multiple selection</Text>
+            <Switch value={multipleChoice} onValueChange={handleSwitchValueChange as () => void} />
+          </View>
           <Button mode="contained" onPress={handleSaveChoices}>
             Save
           </Button>
         </View>
+
         <TextInput
           mode="outlined"
           label="Question"
@@ -103,12 +119,14 @@ const styles = StyleSheet.create({
   choice: { marginVertical: 5 },
   choiceContainer: { paddingTop: 10, width: '100%' },
   container: {
+    margin: 10,
+    borderRadius: 10,
     backgroundColor: 'white',
-    padding: 20,
-    flex: 1 / 2,
+    padding: 15,
+    flex: 1,
     height: 'auto',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  question: { width: '100%' },
+  question: { width: '100%', marginTop: 10 },
 });

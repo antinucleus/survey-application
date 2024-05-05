@@ -1,8 +1,12 @@
+import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
-import { StyleSheet } from 'react-native';
-import { Button, Surface, TextInput } from 'react-native-paper';
+import { StyleSheet, View } from 'react-native';
+import { Button, Surface, Text, TextInput } from 'react-native-paper';
+
+import { PublicRoutesScreenNavigationProp } from '@/types';
 
 export const Login = () => {
+  const navigation = useNavigation<PublicRoutesScreenNavigationProp>();
   const [nickname, setNickname] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(true);
@@ -11,6 +15,7 @@ export const Login = () => {
   const handlePasswordChange = (e: string) => setPassword(e);
   const handleTextInputPress = () => setShowPassword(!showPassword);
   const handleSignIn = () => {};
+  const handleCreateAccount = () => navigation.navigate('SignUp');
 
   return (
     <Surface style={styles.container}>
@@ -39,11 +44,30 @@ export const Login = () => {
       <Button style={styles.signIn} mode="contained" onPress={handleSignIn}>
         Sign In
       </Button>
+
+      <View style={styles.bottomText}>
+        <Text>Üye değil misiniz?</Text>
+        <Button
+          compact
+          mode="text"
+          rippleColor="rgba(0, 0, 255, 0.05)"
+          textColor="blue"
+          onPress={handleCreateAccount}>
+          Hesap Oluştur
+        </Button>
+      </View>
     </Surface>
   );
 };
 
 const styles = StyleSheet.create({
+  bottomText: {
+    paddingTop: 10,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  createAccountText: { color: 'blue' },
   container: {
     flex: 1,
     height: '100%',

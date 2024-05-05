@@ -1,1 +1,1 @@
-export { darkColors, lightColors } from './theme';
+export const API_URL = 'https://fakestoreapi.com';

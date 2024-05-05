@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
-import { Button, Surface, Text, TextInput } from 'react-native-paper';
+import { StyleSheet } from 'react-native';
+import { Button, Surface, TextInput } from 'react-native-paper';
 
 export const Login = () => {
   const [nickname, setNickname] = useState('');

@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { useColorScheme } from 'react-native';
 import { MD3DarkTheme, MD3LightTheme, MD3Theme } from 'react-native-paper';
 
-import { darkColors, lightColors } from '../config';
+import { darkColors, lightColors } from '@/config';
 
 export const useTheme = () => {
   const colorScheme = useColorScheme();

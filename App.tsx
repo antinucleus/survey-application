@@ -6,12 +6,15 @@ import { PaperProvider } from 'react-native-paper';
 import { useTheme } from './src/hooks';
 import { Routes } from './src/routes';
 
+import { StatusBar } from '@/components';
+
 export const App = (): React.JSX.Element => {
   const theme = useTheme();
 
   return (
     <NavigationContainer>
       <PaperProvider theme={theme}>
+        <StatusBar />
         <SafeAreaView style={styles.container}>
           <Routes />
         </SafeAreaView>

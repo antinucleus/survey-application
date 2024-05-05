@@ -7,6 +7,7 @@ import { useTheme } from './src/hooks';
 import { Routes } from './src/routes';
 
 import { StatusBar } from '@/components';
+import { CreateSurvey } from '@/features/survey/routes/CreateSurvey';
 
 export const App = (): React.JSX.Element => {
   const theme = useTheme();
@@ -16,7 +17,7 @@ export const App = (): React.JSX.Element => {
       <PaperProvider theme={theme}>
         <StatusBar />
         <SafeAreaView style={styles.container}>
-          <Routes />
+          <CreateSurvey />
         </SafeAreaView>
       </PaperProvider>
     </NavigationContainer>

@@ -1,2 +1,2 @@
-export { QuestionTypesMenu } from './QuestionTypesMenuItems';
+export { QuestionTypesMenu } from './QuestionTypesMenu';
 export { CreateQuestionForm } from './CreateQuestionForm';

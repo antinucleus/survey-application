@@ -1,22 +1,29 @@
-import Ionicons from '@expo/vector-icons/Ionicons';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import React from 'react';
+import { SafeAreaView, StyleSheet } from 'react-native';
+import { PaperProvider } from 'react-native-paper';
 
-export default function App() {
+import { useTheme } from './src/hooks';
+import { Routes } from './src/routes';
+
+export const App = (): React.JSX.Element => {
+  const theme = useTheme();
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <Ionicons name="add-circle" size={32} color="green" />
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <PaperProvider theme={theme}>
+        <SafeAreaView style={styles.container}>
+          <Routes />
+        </SafeAreaView>
+      </PaperProvider>
+    </NavigationContainer>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 });
+
+export default App;

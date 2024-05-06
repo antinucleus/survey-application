@@ -13,6 +13,7 @@ import { setOpenEnded, OpenEndedQuestionState } from '../utils/openEndedQuestion
 import { setSlider, SliderQuestionState } from '../utils/sliderQuestionSlice';
 
 import { RootState } from '@/stores/appStore';
+import { deleteQuestion } from '@/utils/allQuestionSlice';
 
 type Props = { listItemOnPress: () => void };
 
@@ -20,7 +21,7 @@ export const QuestionsList = ({ listItemOnPress }: Props) => {
   const dispatch = useDispatch();
   const allQuestion = useSelector((state: RootState) => state.allQuestion.questions);
 
-  const handleListItemOnpress = (index: number, type: QuestionTypes) => {
+  const handleEdit = (index: number, type: QuestionTypes) => {
     listItemOnPress();
     dispatch(updateCurrentQuestionType(type));
     dispatch(updateCurrentQuestionKey(index));
@@ -33,8 +34,10 @@ export const QuestionsList = ({ listItemOnPress }: Props) => {
     } else if (type === 'Open-ended Question') {
       dispatch(setOpenEnded(allQuestion[index].question as OpenEndedQuestionState));
     }
+  };
 
-    console.log('[QUESTION KEY]', allQuestion[index].key, '[INDEX]:', index);
+  const handleDelete = (index: number) => {
+    dispatch(deleteQuestion(index));
   };
 
   return (
@@ -45,11 +48,10 @@ export const QuestionsList = ({ listItemOnPress }: Props) => {
             <List.Item
               key={`List-item-${i}-${q.type}`}
               right={() => (
-                <IconButton
-                  icon="pencil"
-                  size={20}
-                  onPress={() => handleListItemOnpress(i, q.type)}
-                />
+                <View style={styles.optionsContainer}>
+                  <IconButton icon="pencil" size={20} onPress={() => handleEdit(i, q.type)} />
+                  <IconButton icon="delete" size={20} onPress={() => handleDelete(i)} />
+                </View>
               )}
               title={q.type}
             />
@@ -63,5 +65,9 @@ export const QuestionsList = ({ listItemOnPress }: Props) => {
 const styles = StyleSheet.create({
   accordionContainer: {
     width: '100%',
+  },
+  optionsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 });

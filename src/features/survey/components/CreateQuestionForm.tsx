@@ -24,7 +24,7 @@ import {
 } from '../utils/sliderQuestionSlice';
 
 import { RootState } from '@/stores/appStore';
-import { addQuetion } from '@/utils/allQuestionSlice';
+import { addQuetion, updateQuestion } from '@/utils/allQuestionSlice';
 
 type Props = {
   modalVisibility: boolean;
@@ -37,7 +37,6 @@ export const CreateQuestionForm = ({ modalVisibility, handleCloseQuestionForm }:
   const { questionType, questionOperation, questionKey } = useSelector(
     (state: RootState) => state.currentQuestionProperties,
   );
-  const allQuestion = useSelector((state: RootState) => state.allQuestion);
   const choicesQuestion = useSelector((state: RootState) => state.choicesQuestion);
   const sliderQuestion = useSelector((state: RootState) => state.sliderQuestion);
   const openEndedQuestion = useSelector((state: RootState) => state.openEndedQuestion);
@@ -73,13 +72,22 @@ export const CreateQuestionForm = ({ modalVisibility, handleCloseQuestionForm }:
   const handleSwitchValueChange = () => dispatch(updateMultipleChoice());
 
   const handleSaveChoices = () => {
-    dispatch(
-      addQuetion({
-        question: questionState,
-        type: questionType,
-        key: questionOperation === 'Add' ? allQuestion.questions.length : questionKey,
-      }),
-    );
+    if (questionOperation === 'Add') {
+      dispatch(
+        addQuetion({
+          question: questionState,
+          type: questionType,
+        }),
+      );
+    } else if (questionOperation === 'Update') {
+      dispatch(
+        updateQuestion({
+          q: { question: questionState, type: questionType },
+          questionIndex: questionKey,
+        }),
+      );
+    }
+
     dispatch(resetFunc());
     handleCloseQuestionForm();
   };

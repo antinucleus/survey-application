@@ -6,10 +6,11 @@ import { ChoicesQuestionState } from '@/features/survey/utils/choicesQuestionsSl
 import { OpenEndedQuestionState } from '@/features/survey/utils/openEndedQuestionSlice';
 import { SliderQuestionState } from '@/features/survey/utils/sliderQuestionSlice';
 
+type QuestionStates = ChoicesQuestionState | SliderQuestionState | OpenEndedQuestionState;
+
 type Question = {
-  key: number;
   type: QuestionTypes;
-  question: ChoicesQuestionState | SliderQuestionState | OpenEndedQuestionState;
+  question: QuestionStates;
 };
 
 export interface AllQuestionState {
@@ -25,25 +26,20 @@ export const allQuestionSlice = createSlice({
   initialState,
   reducers: {
     addQuetion: (state, action: PayloadAction<Question>) => {
-      let duplicated = false;
       const q = action.payload;
 
-      for (let i = 0; i < state.questions.length; i++) {
-        if (state.questions[i].key === q.key) {
-          duplicated = true;
-          state.questions[i].question = q.question;
-          state.questions[i].type = q.type;
-
-          break;
-        }
-      }
-      if (duplicated === false) {
-        state.questions.push(q);
-      }
+      state.questions.push(q);
+    },
+    updateQuestion: (state, action: PayloadAction<{ q: Question; questionIndex: number }>) => {
+      const { questionIndex, q } = action.payload;
+      state.questions[questionIndex] = q;
+    },
+    deleteQuestion: (state, action: PayloadAction<number>) => {
+      state.questions.splice(action.payload, 1);
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { addQuetion } = allQuestionSlice.actions;
+export const { addQuetion, updateQuestion, deleteQuestion } = allQuestionSlice.actions;
 export default allQuestionSlice.reducer;

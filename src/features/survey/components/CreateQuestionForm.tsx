@@ -1,11 +1,14 @@
 import { StyleSheet, View } from 'react-native';
 import { TextInput, Portal, Modal, Button, Text, Switch, useTheme } from 'react-native-paper';
-import { ThemeProp } from 'react-native-paper/lib/typescript/types';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { ChoiceQuestionCreator } from './ChoiceQuestionCreator';
 import { SliderQuestionCreator } from './SliderQuestionCreator';
-import { updateMultipleChoice, updateQuestion } from '../utils/choicesQuestionsSlice';
+import {
+  updateMultipleChoice,
+  updateQuestion as updateChoiceQuestion,
+} from '../utils/choicesQuestionsSlice';
+import { updateQuestion as updateSliderQuestion } from '../utils/sliderQuestionSlice';
 
 import { RootState } from '@/stores/appStore';
 
@@ -18,11 +21,31 @@ export const CreateQuestionForm = ({ modalVisibility, handleCloseQuestionForm }:
   const { dark } = useTheme();
   const dispatch = useDispatch();
   const { questionType } = useSelector((state: RootState) => state.currentQuestionProperties);
-  const { multipleSelection, question } = useSelector(
+  const { multipleSelection, question: choiceQuestion } = useSelector(
     (state: RootState) => state.choicesQuestion.choices,
   );
+  const { question: sliderQuestion } = useSelector(
+    (state: RootState) => state.sliderQuestion.slider,
+  );
+  let question;
 
-  const handleQuestionChange = (e: string) => dispatch(updateQuestion(e));
+  if (questionType === 'Multiple Choice') {
+    question = choiceQuestion;
+  } else if (questionType === 'Slider') {
+    question = sliderQuestion;
+  }
+
+  const handleQuestionChange = (e: string) => {
+    let updateFunc: any;
+
+    if (questionType === 'Multiple Choice') {
+      updateFunc = updateChoiceQuestion;
+    } else if (questionType === 'Slider') {
+      updateFunc = updateSliderQuestion;
+    }
+
+    dispatch(updateFunc(e));
+  };
 
   const handleSwitchValueChange = () => dispatch(updateMultipleChoice());
 
@@ -35,7 +58,13 @@ export const CreateQuestionForm = ({ modalVisibility, handleCloseQuestionForm }:
     <Portal>
       <Modal
         visible={modalVisibility}
-        contentContainerStyle={[styles.container, { backgroundColor: dark ? 'black' : 'white' }]}
+        contentContainerStyle={[
+          styles.container,
+          {
+            backgroundColor: dark ? 'black' : 'white',
+            height: questionType === 'Slider' ? '40%' : '70%',
+          },
+        ]}
         dismissable={false}
         dismissableBackButton={false}>
         <View style={styles.topOptions}>
@@ -57,6 +86,7 @@ export const CreateQuestionForm = ({ modalVisibility, handleCloseQuestionForm }:
           mode="outlined"
           label="Question"
           placeholder="Enter the question"
+          autoCorrect={false}
           value={question}
           style={styles.question}
           onChangeText={handleQuestionChange}
@@ -74,7 +104,6 @@ const styles = StyleSheet.create({
     margin: 10,
     borderRadius: 10,
     padding: 15,
-    height: '50%',
     justifyContent: 'space-between',
     alignItems: 'center',
   },

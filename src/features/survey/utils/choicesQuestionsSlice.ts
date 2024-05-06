@@ -1,12 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
+import { ChoiceOptionTypes } from '../types';
+
 export interface ChoicesQuestionState {
-  choices: { values: string[]; question: string; multipleSelection: boolean };
+  choices: {
+    values: string[];
+    question: string;
+    multipleSelection: boolean;
+    optionType: ChoiceOptionTypes;
+  };
 }
 
 const initialState: ChoicesQuestionState = {
-  choices: { values: [], question: '', multipleSelection: false },
+  choices: { values: [], question: '', multipleSelection: false, optionType: 'Radio Button' },
 };
 
 export const choicesQuestionSlice = createSlice({
@@ -26,6 +33,10 @@ export const choicesQuestionSlice = createSlice({
     updateMultipleChoice: (state) => {
       state.choices.multipleSelection = !state.choices.multipleSelection;
     },
+
+    updateChoiceOptionType: (state, action: PayloadAction<ChoiceOptionTypes>) => {
+      state.choices.optionType = action.payload;
+    },
     updateQuestion: (state, action: PayloadAction<string>) => {
       state.choices.question = action.payload;
     },
@@ -33,6 +44,12 @@ export const choicesQuestionSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { addChoice, deleteChoice, updateChoice, updateQuestion, updateMultipleChoice } =
-  choicesQuestionSlice.actions;
+export const {
+  addChoice,
+  deleteChoice,
+  updateChoice,
+  updateQuestion,
+  updateChoiceOptionType,
+  updateMultipleChoice,
+} = choicesQuestionSlice.actions;
 export default choicesQuestionSlice.reducer;

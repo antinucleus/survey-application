@@ -23,9 +23,12 @@ export const sliderQuestionSlice = createSlice({
         state.slider.values.max = max;
       }
     },
+    updateQuestion: (state, action: PayloadAction<string>) => {
+      state.slider.question = action.payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { updateSlider } = sliderQuestionSlice.actions;
+export const { updateSlider, updateQuestion } = sliderQuestionSlice.actions;
 export default sliderQuestionSlice.reducer;

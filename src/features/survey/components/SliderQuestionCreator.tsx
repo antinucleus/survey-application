@@ -18,7 +18,7 @@ export const SliderQuestionCreator = () => {
   return (
     <View style={[styles.container, { backgroundColor: dark ? 'black' : 'white' }]}>
       <View style={styles.textInputContainer}>
-        <Text>Slider minimum value</Text>
+        <Text style={styles.sliderTitle}>Slider minimum value</Text>
         <TextInput
           style={styles.minValueTextInput}
           maxLength={5}
@@ -30,7 +30,7 @@ export const SliderQuestionCreator = () => {
       </View>
 
       <View style={styles.textInputContainer}>
-        <Text>Slider maximum value</Text>
+        <Text style={styles.sliderTitle}>Slider maximum value</Text>
         <TextInput
           style={styles.maxValueTextInput}
           mode="flat"
@@ -51,7 +51,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  maxValueTextInput: {},
+  maxValueTextInput: { width: '100%' },
   minValueTextInput: { width: '100%' },
-  textInputContainer: { marginVertical: 5 },
+  sliderTitle: { marginBottom: 10 },
+  textInputContainer: { marginVertical: 5, alignItems: 'center' },
 });

@@ -56,10 +56,20 @@ export const QuestionsList = ({ listItemOnPress }: Props) => {
     return description;
   };
 
+  const handleSaveSurvey = () => {
+    for (const q of allQuestion) {
+      console.log(q.question);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.saveButtonContainer}>
-        <Button theme={{ roundness: 2 }} style={styles.saveButton} mode="contained">
+        <Button
+          theme={{ roundness: 2 }}
+          style={styles.saveButton}
+          mode="contained"
+          onPress={handleSaveSurvey}>
           Save
         </Button>
         <Divider />

@@ -9,6 +9,9 @@ import { store } from './src/stores/appStore';
 
 import { StatusBar } from '@/components';
 import { CreateSurvey } from '@/features/survey/routes/CreateSurvey';
+import { TakeSurvey } from '@/features/survey/routes/TakeSurvey';
+import { Routes } from '@/routes';
+
 export const App = (): React.JSX.Element => {
   const theme = useTheme();
 
@@ -18,7 +21,9 @@ export const App = (): React.JSX.Element => {
         <PaperProvider theme={theme}>
           <StatusBar />
           <SafeAreaView style={styles.container}>
-            <CreateSurvey />
+            <TakeSurvey />
+            {/* <CreateSurvey /> */}
+            {/* <Routes /> */}
           </SafeAreaView>
         </PaperProvider>
       </Provider>

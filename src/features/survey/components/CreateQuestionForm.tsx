@@ -1,8 +1,10 @@
 import { StyleSheet, View } from 'react-native';
-import { TextInput, Portal, Modal, Button, Text, Switch } from 'react-native-paper';
+import { TextInput, Portal, Modal, Button, Text, Switch, useTheme } from 'react-native-paper';
+import { ThemeProp } from 'react-native-paper/lib/typescript/types';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { ChoiceQuestionCreator } from './ChoiceQuestionCreator';
+import { SliderQuestionCreator } from './SliderQuestionCreator';
 import { updateMultipleChoice, updateQuestion } from '../utils/choicesQuestionsSlice';
 
 import { RootState } from '@/stores/appStore';
@@ -13,6 +15,7 @@ type Props = {
 };
 
 export const CreateQuestionForm = ({ modalVisibility, handleCloseQuestionForm }: Props) => {
+  const { dark } = useTheme();
   const dispatch = useDispatch();
   const { questionType } = useSelector((state: RootState) => state.currentQuestionProperties);
   const { multipleSelection, question } = useSelector(
@@ -32,20 +35,22 @@ export const CreateQuestionForm = ({ modalVisibility, handleCloseQuestionForm }:
     <Portal>
       <Modal
         visible={modalVisibility}
-        contentContainerStyle={styles.container}
+        contentContainerStyle={[styles.container, { backgroundColor: dark ? 'black' : 'white' }]}
         dismissable={false}
         dismissableBackButton={false}>
         <View style={styles.topOptions}>
-          <View style={styles.switchContainer}>
-            <Text style={styles.multipleSelectionText}>Multiple selection</Text>
-            <Switch
-              value={multipleSelection}
-              onValueChange={handleSwitchValueChange as () => void}
-            />
-          </View>
-          <Button mode="contained" onPress={handleSaveChoices}>
+          <Button theme={{ roundness: 2 }} mode="contained" onPress={handleSaveChoices}>
             Save
           </Button>
+          {(questionType === 'Multiple Choice' || questionType === 'Selections') && (
+            <View style={styles.switchContainer}>
+              <Text style={styles.multipleSelectionText}>Multiple selection</Text>
+              <Switch
+                value={multipleSelection}
+                onValueChange={handleSwitchValueChange as () => void}
+              />
+            </View>
+          )}
         </View>
 
         <TextInput
@@ -58,28 +63,22 @@ export const CreateQuestionForm = ({ modalVisibility, handleCloseQuestionForm }:
         />
 
         {questionType === 'Multiple Choice' && <ChoiceQuestionCreator />}
+        {questionType === 'Slider' && <SliderQuestionCreator />}
       </Modal>
     </Portal>
   );
 };
 
 const styles = StyleSheet.create({
-  choice: { marginVertical: 5 },
-  choiceContainer: { paddingTop: 10, width: '100%' },
   container: {
     margin: 10,
     borderRadius: 10,
-    backgroundColor: 'white',
     padding: 15,
-    flex: 1,
-    height: 'auto',
+    height: '50%',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
   multipleSelectionText: { marginRight: 10 },
-  noChoiceText: {
-    marginVertical: 5,
-  },
   switchContainer: {
     flexDirection: 'row',
     alignItems: 'center',

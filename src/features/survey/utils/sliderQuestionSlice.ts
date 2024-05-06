@@ -13,8 +13,15 @@ export const sliderQuestionSlice = createSlice({
   name: 'sliderQuestion',
   initialState,
   reducers: {
-    updateSlider: (state, action: PayloadAction<{ min: number; max: number }>) => {
-      state.slider.values = action.payload;
+    updateSlider: (state, action: PayloadAction<{ min?: number; max?: number }>) => {
+      const { max, min } = action.payload;
+      if (min) {
+        state.slider.values.min = min;
+      }
+
+      if (max) {
+        state.slider.values.max = max;
+      }
     },
   },
 });

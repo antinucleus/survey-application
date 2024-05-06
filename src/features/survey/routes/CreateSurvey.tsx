@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Surface, Text, Title } from 'react-native-paper';
 
-import { CreateQuestionForm, QuestionTypesMenu } from '../components';
+import { CreateQuestionForm, QuestionTypesMenu, QuestionsList } from '../components';
 
 export const CreateSurvey = () => {
   const [modalVisibility, setModalVisibility] = useState(false);
@@ -14,6 +14,7 @@ export const CreateSurvey = () => {
     <Surface style={styles.container}>
       <Title>Create Survey</Title>
       <Text> There is no question yet</Text>
+      <QuestionsList listItemOnPress={handleOpenQuestionForm} />
       <View style={styles.menuContainer}>
         <QuestionTypesMenu menuItemOnPress={handleOpenQuestionForm} />
       </View>

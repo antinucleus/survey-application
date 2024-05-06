@@ -40,6 +40,13 @@ export const choicesQuestionSlice = createSlice({
     updateQuestion: (state, action: PayloadAction<string>) => {
       state.choices.question = action.payload;
     },
+    setChoices: (state, action: PayloadAction<ChoicesQuestionState>) => {
+      state.choices = action.payload.choices;
+      console.log('Its is sett:', state.choices);
+    },
+    resetChoices: (state) => {
+      state.choices = initialState.choices;
+    },
   },
 });
 
@@ -51,5 +58,7 @@ export const {
   updateQuestion,
   updateChoiceOptionType,
   updateMultipleChoice,
+  setChoices,
+  resetChoices,
 } = choicesQuestionSlice.actions;
 export default choicesQuestionSlice.reducer;

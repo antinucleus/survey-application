@@ -4,7 +4,10 @@ import { IconButton, Menu } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 
 import { QuestionTypes } from '../types';
-import { updateQuetionType } from '../utils/currentQuestionPropertiesSlice';
+import {
+  updateCurrentQuestionOperation,
+  updateCurrentQuestionType,
+} from '../utils/currentQuestionPropertiesSlice';
 
 type Props = {
   menuItemOnPress: () => void;
@@ -22,7 +25,8 @@ export const QuestionTypesMenu = ({ menuItemOnPress }: Props) => {
   const handleOpenMenu = () => setMenuVisibility(true);
   const handleCloseMenu = () => setMenuVisibility(false);
   const handleItemOnPress = (questionType: QuestionTypes) => {
-    dispatch(updateQuetionType(questionType));
+    dispatch(updateCurrentQuestionType(questionType));
+    dispatch(updateCurrentQuestionOperation('Add'));
     handleCloseMenu();
     menuItemOnPress();
   };
@@ -30,7 +34,6 @@ export const QuestionTypesMenu = ({ menuItemOnPress }: Props) => {
   const menuItems: Item[] = [
     { leadingIcon: 'radiobox-marked', title: 'Multiple Choice' },
     { leadingIcon: 'tune-variant', title: 'Slider' },
-    { leadingIcon: 'checkbox-multiple-marked', title: 'Selections' },
     { leadingIcon: 'text-long', title: 'Open-ended Question' },
   ];
 

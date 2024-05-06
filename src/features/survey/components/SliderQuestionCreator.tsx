@@ -1,6 +1,5 @@
-import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Surface, Text, TextInput, useTheme } from 'react-native-paper';
+import { Text, TextInput, useTheme } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { updateSlider } from '../utils/sliderQuestionSlice';

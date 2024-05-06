@@ -6,6 +6,7 @@ import { CreateQuestionForm, QuestionTypesMenu } from '../components';
 
 export const CreateSurvey = () => {
   const [modalVisibility, setModalVisibility] = useState(false);
+
   const handleOpenQuestionForm = () => setModalVisibility(true);
   const handleCloseQuestionForm = () => setModalVisibility(false);
 

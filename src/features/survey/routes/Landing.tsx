@@ -2,7 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import { StyleSheet } from 'react-native';
 import { Button, Surface, Text } from 'react-native-paper';
 
-import { SurveyRoutesScreenNavigationProp } from '../types/SurveyRoutes';
+import { SurveyRoutesScreenNavigationProp } from '../types';
 
 export const Landing = () => {
   const name = 'Tester';

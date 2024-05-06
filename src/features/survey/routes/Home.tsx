@@ -4,7 +4,7 @@ import React from 'react';
 import { CreateSurvey } from './CreateSurvey';
 import { Landing } from './Landing';
 import { TakeSurvey } from './TakeSurvey';
-import { SurveyRoutesStackParamList } from '../types/SurveyRoutes';
+import { SurveyRoutesStackParamList } from '../types';
 
 const { Navigator, Screen } = createNativeStackNavigator<SurveyRoutesStackParamList>();
 

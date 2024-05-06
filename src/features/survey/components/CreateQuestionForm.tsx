@@ -8,7 +8,7 @@ import {
   updateChoice,
   updateMultipleChoice,
   updateQuestion,
-} from '../utils/questionsSlice';
+} from '../utils/choicesQuestionsSlice';
 
 import { RootState } from '@/stores/appStore';
 
@@ -20,10 +20,10 @@ type Props = {
 export const CreateQuestionForm = ({ modalVisibility, handleCloseQuestionForm }: Props) => {
   const dispatch = useDispatch();
   const {
-    multipleChoice,
+    multipleSelection,
     question,
     values: choices,
-  } = useSelector((state: RootState) => state.question.choices);
+  } = useSelector((state: RootState) => state.choicesQuestion.choices);
 
   const handleQuestionChange = (e: string) => dispatch(updateQuestion(e));
 
@@ -43,33 +43,18 @@ export const CreateQuestionForm = ({ modalVisibility, handleCloseQuestionForm }:
 
   return (
     <Portal>
-      {/* <Portal>
-        <Dialog visible={dialogVisibility} dismissable={false} dismissableBackButton={false}>
-          <Dialog.Title>Changes are not saved</Dialog.Title>
-          <Dialog.Content>
-            <Text variant="bodyMedium">Are you sure you want to exit without saving?</Text>
-          </Dialog.Content>
-          <Dialog.Actions>
-            <Button onPress={handleDialogOnDismiss}>Yes</Button>
-            <Button onPress={handleCloseDialog}>No</Button>
-          </Dialog.Actions>
-        </Dialog>
-      </Portal> */}
       <Modal
         visible={modalVisibility}
         contentContainerStyle={styles.container}
         dismissable={false}
         dismissableBackButton={false}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            width: '100%',
-          }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Text style={{ marginRight: 10 }}>Multiple selection</Text>
-            <Switch value={multipleChoice} onValueChange={handleSwitchValueChange as () => void} />
+        <View style={styles.topOptions}>
+          <View style={styles.switchContainer}>
+            <Text style={styles.multipleSelectionText}>Multiple selection</Text>
+            <Switch
+              value={multipleSelection}
+              onValueChange={handleSwitchValueChange as () => void}
+            />
           </View>
           <Button mode="contained" onPress={handleSaveChoices}>
             Save
@@ -106,7 +91,7 @@ export const CreateQuestionForm = ({ modalVisibility, handleCloseQuestionForm }:
             ))}
           </ScrollView>
         ) : (
-          <Text style={{ marginVertical: 5 }}>There is no choice yet</Text>
+          <Text style={styles.noChoiceText}>There is no choice yet</Text>
         )}
 
         <IconButton mode="contained" icon="plus" size={20} onPress={handleAddChoice} />
@@ -127,6 +112,20 @@ const styles = StyleSheet.create({
     height: 'auto',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  multipleSelectionText: { marginRight: 10 },
+  noChoiceText: {
+    marginVertical: 5,
+  },
+  switchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  topOptions: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
   },
   question: { width: '100%', marginTop: 10 },
 });

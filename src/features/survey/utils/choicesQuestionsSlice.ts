@@ -1,16 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-export interface QuestionState {
-  choices: { values: string[]; question: string; multipleChoice: boolean };
+export interface ChoicesQuestionState {
+  choices: { values: string[]; question: string; multipleSelection: boolean };
 }
 
-const initialState: QuestionState = {
-  choices: { values: [], question: '', multipleChoice: false },
+const initialState: ChoicesQuestionState = {
+  choices: { values: [], question: '', multipleSelection: false },
 };
 
-export const questionSlice = createSlice({
-  name: 'question',
+export const choicesQuestionSlice = createSlice({
+  name: 'choicesQuestion',
   initialState,
   reducers: {
     addChoice: (state, action: PayloadAction<string>) => {
@@ -24,7 +24,7 @@ export const questionSlice = createSlice({
       state.choices.values[index] = value;
     },
     updateMultipleChoice: (state) => {
-      state.choices.multipleChoice = !state.choices.multipleChoice;
+      state.choices.multipleSelection = !state.choices.multipleSelection;
     },
     updateQuestion: (state, action: PayloadAction<string>) => {
       state.choices.question = action.payload;
@@ -34,5 +34,5 @@ export const questionSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const { addChoice, deleteChoice, updateChoice, updateQuestion, updateMultipleChoice } =
-  questionSlice.actions;
-export default questionSlice.reducer;
+  choicesQuestionSlice.actions;
+export default choicesQuestionSlice.reducer;

@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import questionReducer from '@/features/survey/utils/questionsSlice';
+import choicesQuestionReducer from '@/features/survey/utils/choicesQuestionsSlice';
+import sliderQuestionReducer from '@/features/survey/utils/sliderQuestionSlice';
 
 export const store = configureStore({
   reducer: {
-    question: questionReducer,
+    choicesQuestion: choicesQuestionReducer,
+    sliderQuestion: sliderQuestionReducer,
   },
 });
 

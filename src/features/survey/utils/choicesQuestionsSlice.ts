@@ -42,7 +42,6 @@ export const choicesQuestionSlice = createSlice({
     },
     setChoices: (state, action: PayloadAction<ChoicesQuestionState>) => {
       state.choices = action.payload.choices;
-      console.log('Its is sett:', state.choices);
     },
     resetChoices: (state) => {
       state.choices = initialState.choices;

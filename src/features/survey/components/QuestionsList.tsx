@@ -1,5 +1,5 @@
-import { View, StyleSheet } from 'react-native';
-import { IconButton, List } from 'react-native-paper';
+import { View, StyleSheet, ScrollView } from 'react-native';
+import { Button, Divider, IconButton, List } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { QuestionTypes } from '../types';
@@ -22,7 +22,6 @@ export const QuestionsList = ({ listItemOnPress }: Props) => {
   const allQuestion = useSelector((state: RootState) => state.allQuestion.questions);
 
   const handleEdit = (index: number, type: QuestionTypes) => {
-    listItemOnPress();
     dispatch(updateCurrentQuestionType(type));
     dispatch(updateCurrentQuestionKey(index));
     dispatch(updateCurrentQuestionOperation('Update'));
@@ -34,40 +33,78 @@ export const QuestionsList = ({ listItemOnPress }: Props) => {
     } else if (type === 'Open-ended Question') {
       dispatch(setOpenEnded(allQuestion[index].question as OpenEndedQuestionState));
     }
+
+    listItemOnPress();
   };
 
   const handleDelete = (index: number) => {
     dispatch(deleteQuestion(index));
   };
 
+  const formatQuestion = (q: string) => q.slice(0, 20) + '...';
+
+  const des = (type: QuestionTypes, q: any) => {
+    let description = 'Question: ';
+    if (type === 'Multiple Choice') {
+      description += `${formatQuestion(q.choices.question)}\nChoices: ${q.choices.values.length}\nMultiple Selection: ${q.choices.multipleSelection}\nOption Type: ${q.choices.optionType}`;
+    } else if (type === 'Slider') {
+      description += `${formatQuestion(q.slider.question)}\nMinimum Value: ${q.slider.values.min}\nMaximum Value: ${q.slider.values.max}`;
+    } else if (type === 'Open-ended Question') {
+      description += `${formatQuestion(q.openEnded.question)}\nMax Character Length: ${q.openEnded.values.maxLength}`;
+    }
+
+    return description;
+  };
+
   return (
-    <List.AccordionGroup>
-      <View style={styles.accordionContainer}>
-        <List.Accordion title="Questions" id="1">
-          {allQuestion.map((q, i) => (
+    <View style={styles.container}>
+      <View style={styles.saveButtonContainer}>
+        <Button theme={{ roundness: 2 }} style={styles.saveButton} mode="contained">
+          Save
+        </Button>
+        <Divider />
+      </View>
+      <ScrollView style={{ height: '70%', overflow: 'scroll' }}>
+        {allQuestion.map((q, i) => (
+          <View style={styles.listItemContainer} key={`List-item-${i}-${q.type}`}>
             <List.Item
-              key={`List-item-${i}-${q.type}`}
               right={() => (
                 <View style={styles.optionsContainer}>
-                  <IconButton icon="pencil" size={20} onPress={() => handleEdit(i, q.type)} />
-                  <IconButton icon="delete" size={20} onPress={() => handleDelete(i)} />
+                  <IconButton
+                    icon="pencil"
+                    size={20}
+                    iconColor="#5AB2FF"
+                    onPress={() => handleEdit(i, q.type)}
+                  />
+                  <IconButton
+                    icon="delete"
+                    size={20}
+                    iconColor="tomato"
+                    onPress={() => handleDelete(i)}
+                  />
                 </View>
               )}
               title={q.type}
+              description={des(q.type, q.question)}
+              descriptionNumberOfLines={4}
             />
-          ))}
-        </List.Accordion>
-      </View>
-    </List.AccordionGroup>
+            <Divider />
+          </View>
+        ))}
+      </ScrollView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  accordionContainer: {
+  container: {
     width: '100%',
   },
+  listItemContainer: { marginBottom: 5 },
   optionsContainer: {
     flexDirection: 'row',
     alignItems: 'center',
   },
+  saveButton: { width: '30%', marginBottom: 10 },
+  saveButtonContainer: { padding: 10, marginBottom: 10 },
 });

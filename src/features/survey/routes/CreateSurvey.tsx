@@ -1,10 +1,14 @@
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Surface, Text, Title } from 'react-native-paper';
+import { useSelector } from 'react-redux';
 
 import { CreateQuestionForm, QuestionTypesMenu, QuestionsList } from '../components';
 
+import { RootState } from '@/stores/appStore';
+
 export const CreateSurvey = () => {
+  const allQuestions = useSelector((state: RootState) => state.allQuestion.questions);
   const [modalVisibility, setModalVisibility] = useState(false);
 
   const handleOpenQuestionForm = () => setModalVisibility(true);
@@ -13,15 +17,20 @@ export const CreateSurvey = () => {
   return (
     <Surface style={styles.container}>
       <Title>Create Survey</Title>
-      <Text> There is no question yet</Text>
-      <QuestionsList listItemOnPress={handleOpenQuestionForm} />
-      <View style={styles.menuContainer}>
-        <QuestionTypesMenu menuItemOnPress={handleOpenQuestionForm} />
+      <View style={styles.innerContainer}>
+        {allQuestions.length > 0 ? (
+          <QuestionsList listItemOnPress={handleOpenQuestionForm} />
+        ) : (
+          <Text> There is no question yet</Text>
+        )}
+        <View style={styles.menuContainer}>
+          <QuestionTypesMenu menuItemOnPress={handleOpenQuestionForm} />
+        </View>
+        <CreateQuestionForm
+          modalVisibility={modalVisibility}
+          handleCloseQuestionForm={handleCloseQuestionForm}
+        />
       </View>
-      <CreateQuestionForm
-        modalVisibility={modalVisibility}
-        handleCloseQuestionForm={handleCloseQuestionForm}
-      />
     </Surface>
   );
 };
@@ -32,5 +41,6 @@ const styles = StyleSheet.create({
     height: 'auto',
     alignItems: 'center',
   },
-  menuContainer: { marginTop: 5 },
+  innerContainer: { width: '100%', alignItems: 'center', justifyContent: 'center', marginTop: 10 },
+  menuContainer: { marginVertical: 5 },
 });

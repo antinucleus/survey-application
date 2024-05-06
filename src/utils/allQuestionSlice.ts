@@ -6,9 +6,9 @@ import { ChoicesQuestionState } from '@/features/survey/utils/choicesQuestionsSl
 import { OpenEndedQuestionState } from '@/features/survey/utils/openEndedQuestionSlice';
 import { SliderQuestionState } from '@/features/survey/utils/sliderQuestionSlice';
 
-type QuestionStates = ChoicesQuestionState | SliderQuestionState | OpenEndedQuestionState;
+export type QuestionStates = ChoicesQuestionState | SliderQuestionState | OpenEndedQuestionState;
 
-type Question = {
+export type Question = {
   type: QuestionTypes;
   question: QuestionStates;
 };
@@ -28,7 +28,7 @@ export const allQuestionSlice = createSlice({
     addQuetion: (state, action: PayloadAction<Question>) => {
       const q = action.payload;
 
-      state.questions.push(q);
+      state.questions.unshift(q);
     },
     updateQuestion: (state, action: PayloadAction<{ q: Question; questionIndex: number }>) => {
       const { questionIndex, q } = action.payload;

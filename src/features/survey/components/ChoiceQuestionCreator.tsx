@@ -1,5 +1,5 @@
 import { StyleSheet, ScrollView, View } from 'react-native';
-import { TextInput, IconButton, Text, Button } from 'react-native-paper';
+import { TextInput, IconButton, Text, Button, HelperText } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { ChoiceOptionTypes } from '../types';
@@ -9,6 +9,7 @@ import {
   updateChoice,
   updateChoiceOptionType,
 } from '../utils/choicesQuestionsSlice';
+import { addError, removeError, updateEmptyError } from '../utils/errorSlice';
 
 import { RootState } from '@/stores/appStore';
 
@@ -18,11 +19,29 @@ export const ChoiceQuestionCreator = () => {
     (state: RootState) => state.choicesQuestion.choices,
   );
 
-  const handleChoiceChange = (e: string, index: number) =>
+  const handleChoiceChange = (e: string, index: number) => {
     dispatch(updateChoice({ value: e, index }));
 
-  const handleAddChoice = () => dispatch(addChoice(''));
-  const handleRemoveChoice = (index: number) => dispatch(deleteChoice(index));
+    if (e.length === 0) {
+      dispatch(addError('choiceErrors'));
+    } else {
+      dispatch(removeError({ key: 'choiceErrors', index }));
+    }
+  };
+
+  const handleAddChoice = () => {
+    dispatch(addChoice(''));
+
+    dispatch(addError('choiceErrors'));
+  };
+  const handleRemoveChoice = (index: number) => {
+    dispatch(deleteChoice(index));
+    dispatch(removeError({ key: 'choiceErrors', index }));
+
+    // if (choices.length === 0) {
+    //   dispatch(updateEmptyError(true));
+    // }
+  };
   const handleChoiceOptionTypeChange = (optionType: ChoiceOptionTypes) => {
     dispatch(updateChoiceOptionType(optionType));
   };
@@ -51,21 +70,25 @@ export const ChoiceQuestionCreator = () => {
       {choices.length > 0 ? (
         <ScrollView style={styles.choiceContainer}>
           {choices.map((choice, i) => (
-            <TextInput
-              placeholder={`choice ${i + 1}`}
-              style={styles.choice}
-              key={`text-input-choice-${i}`}
-              mode="flat"
-              value={choice}
-              onChangeText={(e) => handleChoiceChange(e, i)}
-              right={
-                <TextInput.Icon
-                  onPress={() => handleRemoveChoice(i)}
-                  icon="minus-circle"
-                  color="green"
-                />
-              }
-            />
+            <View style={styles.choiceInputContainer} key={`text-input-choice-${i}`}>
+              <TextInput
+                placeholder={`choice ${i + 1}`}
+                style={styles.choice}
+                mode="flat"
+                value={choice}
+                onChangeText={(e) => handleChoiceChange(e, i)}
+                right={
+                  <TextInput.Icon
+                    onPress={() => handleRemoveChoice(i)}
+                    icon="minus-circle"
+                    color="green"
+                  />
+                }
+              />
+              <HelperText type="error" visible={choice.length === 0}>
+                Choice can not be empty
+              </HelperText>
+            </View>
           ))}
         </ScrollView>
       ) : (
@@ -80,6 +103,7 @@ export const ChoiceQuestionCreator = () => {
 const styles = StyleSheet.create({
   choice: { marginVertical: 1 },
   choiceContainer: { paddingTop: 10, width: '100%' },
+  choiceInputContainer: { width: '100%' },
   noChoiceText: {
     marginVertical: 5,
   },

@@ -7,6 +7,7 @@ const saveItem = async (key: string, value: string) => {
     await SecureStore.setItemAsync(key, value);
   } catch (error) {
     success = false;
+    console.log({ error });
   }
 
   return success;

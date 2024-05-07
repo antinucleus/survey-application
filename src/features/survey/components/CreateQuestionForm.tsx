@@ -1,5 +1,14 @@
 import { StyleSheet, View } from 'react-native';
-import { TextInput, Portal, Modal, Button, Text, Switch, useTheme } from 'react-native-paper';
+import {
+  TextInput,
+  Portal,
+  Modal,
+  Button,
+  Text,
+  Switch,
+  useTheme,
+  HelperText,
+} from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { ChoiceQuestionCreator } from './ChoiceQuestionCreator';
@@ -39,6 +48,9 @@ export const CreateQuestionForm = ({ modalVisibility, handleCloseQuestionForm }:
   const choicesQuestion = useSelector((state: RootState) => state.choicesQuestion);
   const sliderQuestion = useSelector((state: RootState) => state.sliderQuestion);
   const openEndedQuestion = useSelector((state: RootState) => state.openEndedQuestion);
+  // const { choiceErrors, openEndedErrors, sliderErrors, emptyError } = useSelector(
+  //   (state: RootState) => state.error,
+  // );
 
   let question = '';
   let updateFunc: any;
@@ -104,8 +116,17 @@ export const CreateQuestionForm = ({ modalVisibility, handleCloseQuestionForm }:
         dismissable={false}
         dismissableBackButton={false}>
         <View style={styles.topOptions}>
-          <Button theme={{ roundness: 2 }} mode="contained" onPress={handleSaveChoices}>
-            Save
+          <Button
+            theme={{ roundness: 2 }}
+            mode="contained"
+            onPress={handleSaveChoices}
+            disabled={
+              question.length === 0
+              // choiceErrors.length > 0 ||
+              // sliderErrors.length > 0 ||
+              // openEndedErrors.length > 0
+            }>
+            Save Question
           </Button>
           {questionType === 'Multiple Choice' && (
             <View style={styles.switchContainer}>
@@ -118,15 +139,21 @@ export const CreateQuestionForm = ({ modalVisibility, handleCloseQuestionForm }:
           )}
         </View>
 
-        <TextInput
-          mode="outlined"
-          label="Question"
-          placeholder="Enter the question"
-          autoCorrect={false}
-          value={question}
-          style={styles.question}
-          onChangeText={handleQuestionChange}
-        />
+        <View style={styles.questionContainer}>
+          <TextInput
+            mode="outlined"
+            label="Question"
+            placeholder="Enter the question"
+            autoCorrect={false}
+            value={question}
+            style={styles.question}
+            onChangeText={handleQuestionChange}
+            error={question.length === 0}
+          />
+          <HelperText style={styles.helperText} type="error" visible={question.length === 0}>
+            Question can not be empty
+          </HelperText>
+        </View>
 
         {questionType === 'Multiple Choice' && <ChoiceQuestionCreator />}
         {questionType === 'Slider' && <SliderQuestionCreator />}
@@ -145,6 +172,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   multipleSelectionText: { marginRight: 10 },
+  helperText: { width: '100%' },
   switchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -155,5 +183,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
   },
-  question: { width: '100%', marginTop: 10 },
+  question: { width: '100%' },
+  questionContainer: { width: '100%', marginTop: 10 },
 });

@@ -7,6 +7,28 @@ const survey1 = [
     question: { slider: { question: 'Slider 2', values: { max: 5, min: -5 } } },
     type: 'Slider',
   },
+];
+
+const survey2 = [
+  {
+    question: { openEnded: { question: 'Open ended 1 max len 10', values: { maxLength: 10 } } },
+    type: 'Open-ended Question',
+  },
+  {
+    question: { openEnded: { question: 'Open ended 2 max len 100', values: { maxLength: 100 } } },
+    type: 'Open-ended Question',
+  },
+];
+
+const survey3 = [
+  {
+    question: { slider: { question: 'Slider 1', values: { max: 200, min: 10 } } },
+    type: 'Slider',
+  },
+  {
+    question: { slider: { question: 'Slider 2', values: { max: 5, min: -5 } } },
+    type: 'Slider',
+  },
   {
     question: { openEnded: { question: 'Open ended 1 max len 10', values: { maxLength: 10 } } },
     type: 'Open-ended Question',
@@ -93,4 +115,8 @@ const survey1 = [
   },
 ];
 
-export const dummySurveys = [{ title: 'Dummy Test Survey 1', survey: survey1 }];
+export const dummySurveys = [
+  { title: 'Dummy Test Survey 1', survey: survey1 },
+  { title: 'Dummy Test Survey 2', survey: survey2 },
+  { title: 'Dummy Test Survey 3', survey: survey3 },
+];

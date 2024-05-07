@@ -1,6 +1,7 @@
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { Button, Divider, IconButton, List } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';
+import { z } from 'zod';
 
 import { QuestionTypes } from '../types';
 import { setChoices, ChoicesQuestionState } from '../utils/choicesQuestionsSlice';
@@ -14,11 +15,10 @@ import { setSlider, SliderQuestionState } from '../utils/sliderQuestionSlice';
 
 import { RootState } from '@/stores/appStore';
 import { deleteQuestion } from '@/utils/allQuestionSlice';
-import { addSurvey } from '@/utils/allSurveySlice';
 
-type Props = { listItemOnPress: () => void };
+type Props = { error: boolean; listItemOnPress: () => void; handleSave: () => void };
 
-export const QuestionsList = ({ listItemOnPress }: Props) => {
+export const QuestionsList = ({ listItemOnPress, handleSave, error }: Props) => {
   const dispatch = useDispatch();
   const allQuestion = useSelector((state: RootState) => state.allQuestion.questions);
 
@@ -57,14 +57,6 @@ export const QuestionsList = ({ listItemOnPress }: Props) => {
     return description;
   };
 
-  const handleSaveSurvey = () => {
-    for (const q of allQuestion) {
-      console.log(q.question);
-    }
-
-    dispatch(addSurvey({ survey: allQuestion, title: 'Test Survey Title 1' }));
-  };
-
   return (
     <View style={styles.container}>
       <View style={styles.saveButtonContainer}>
@@ -72,7 +64,8 @@ export const QuestionsList = ({ listItemOnPress }: Props) => {
           theme={{ roundness: 2 }}
           style={styles.saveButton}
           mode="contained"
-          onPress={handleSaveSurvey}>
+          onPress={handleSave}
+          disabled={error}>
           Save
         </Button>
         <Divider />

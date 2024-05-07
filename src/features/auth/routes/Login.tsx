@@ -2,11 +2,14 @@ import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Surface, Text, TextInput } from 'react-native-paper';
+import { useDispatch } from 'react-redux';
 
 import { PublicRoutesScreenNavigationProp } from '@/types';
+import { updateAuth } from '@/utils/authSlice';
 
 export const Login = () => {
   const navigation = useNavigation<PublicRoutesScreenNavigationProp>();
+  const dispatch = useDispatch();
   const [nickname, setNickname] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(true);
@@ -14,7 +17,9 @@ export const Login = () => {
   const handleNicknameChange = (e: string) => setNickname(e);
   const handlePasswordChange = (e: string) => setPassword(e);
   const handleTextInputPress = () => setShowPassword(!showPassword);
-  const handleSignIn = () => {};
+  const handleSignIn = () => {
+    dispatch(updateAuth(true));
+  };
   const handleCreateAccount = () => navigation.navigate('SignUp');
 
   return (

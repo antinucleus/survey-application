@@ -17,7 +17,8 @@ export const SliderQuestionViewer = ({ question, show, questionIndex }: Props) =
   const allAnswer = useSelector((state: RootState) => state.allAnswer.answers);
 
   useEffect(() => {
-    if (allAnswer && allAnswer.length > 0) {
+    console.log({ allAnswer });
+    if (allAnswer && allAnswer[questionIndex] !== undefined) {
       setSliderValue(allAnswer[questionIndex].answer as number);
     }
   }, []);

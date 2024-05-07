@@ -34,8 +34,12 @@ export const allAnswerSlice = createSlice({
     setAllAnswer: (state, action: PayloadAction<Answer[]>) => {
       state.answers = action.payload;
     },
+
+    resetAllAnswer: (state) => {
+      state = initialState;
+    },
   },
 });
 
-export const { updateAllAnswer, setAllAnswer } = allAnswerSlice.actions;
+export const { updateAllAnswer, setAllAnswer, resetAllAnswer } = allAnswerSlice.actions;
 export default allAnswerSlice.reducer;

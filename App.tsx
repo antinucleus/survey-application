@@ -5,7 +5,7 @@ import { PaperProvider } from 'react-native-paper';
 import { Provider } from 'react-redux';
 
 import { useTheme } from './src/hooks';
-import { store } from './src/stores/appStore';
+import { RootState, store } from './src/stores/appStore';
 
 import { StatusBar } from '@/components';
 import { CreateSurvey } from '@/features/survey/routes/CreateSurvey';
@@ -22,6 +22,7 @@ export const App = (): React.JSX.Element => {
           <StatusBar />
           <SafeAreaView style={styles.container}>
             <TakeSurvey />
+
             {/* <CreateSurvey /> */}
             {/* <Routes /> */}
           </SafeAreaView>

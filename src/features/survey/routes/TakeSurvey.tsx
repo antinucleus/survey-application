@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Dimensions, StyleSheet, View } from 'react-native';
-import { Surface, useTheme, Button } from 'react-native-paper';
+import { Surface, useTheme, Button, Snackbar } from 'react-native-paper';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -18,7 +18,9 @@ import { updateCurrentAnswerKey } from '../utils/currentAnswerPropertiesSlice';
 import { OpenEndedQuestionState } from '../utils/openEndedQuestionSlice';
 import { SliderQuestionState } from '../utils/sliderQuestionSlice';
 
+import { SURVEY_ANSWERS } from '@/config';
 import { RootState } from '@/stores/appStore';
+import { saveItem } from '@/utils/storage';
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
 
@@ -27,6 +29,7 @@ export const TakeSurvey = () => {
   const { dark } = useTheme();
   const allQuestions = useSelector((state: RootState) => state.allQuestion.questions);
   const allAnswer = useSelector((state: RootState) => state.allAnswer.answers);
+  const [showMessage, setShowMessage] = useState('');
 
   const [current, setCurrent] = useState(0);
   const [disableButton, setDisableButton] = useState(false);
@@ -69,20 +72,27 @@ export const TakeSurvey = () => {
     }, 1200);
   };
 
-  const showAllAnswers = () => {
+  const handleSaveSurvey = async () => {
     if (allAnswer.length !== allQuestions.length) {
       console.log('ERROR COMPLETE ALL QUESTIONS');
-    }
-    let i = 0;
-    for (const el of allAnswer) {
-      console.log(`\nANSWER ${i}: ${el.answer}\n`);
-      i++;
+    } else {
+      const result = await saveItem(SURVEY_ANSWERS, JSON.stringify(allAnswer));
+      if (result) {
+        setShowMessage('Survey saved');
+      } else {
+        setShowMessage('Survey is not saved');
+      }
     }
   };
+
+  const onDismissSnackbar = () => setShowMessage('');
 
   return (
     <Surface style={[styles.container, { backgroundColor: dark ? 'black' : 'white' }]}>
       <Progress question={current} />
+      <Snackbar duration={5} visible={showMessage !== ''} onDismiss={onDismissSnackbar}>
+        {showMessage}
+      </Snackbar>
       <Animated.ScrollView style={[styles.questionContainer, questionAnimatedStyle]}>
         {allQuestions.map(({ question, type }, i) => {
           if (type === 'Multiple Choice') {
@@ -130,7 +140,7 @@ export const TakeSurvey = () => {
         {current === allQuestions.length - 1 ? (
           <Button
             mode="contained"
-            onPress={showAllAnswers}
+            onPress={handleSaveSurvey}
             style={[styles.bottomButtons, { width: '50%' }]}
             disabled={disableButton || allAnswer[current] === undefined}>
             Complete

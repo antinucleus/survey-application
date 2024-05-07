@@ -1,81 +1,38 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-import { QuestionTypes } from '@/features/survey/types';
-import { ChoicesQuestionState } from '@/features/survey/utils/choicesQuestionsSlice';
-import { OpenEndedQuestionState } from '@/features/survey/utils/openEndedQuestionSlice';
-import { SliderQuestionState } from '@/features/survey/utils/sliderQuestionSlice';
+import { CheckBoxStatus, QuestionTypes, RadioStatus } from '@/features/survey/types';
 
-export type QuestionStates = ChoicesQuestionState | SliderQuestionState | OpenEndedQuestionState;
+type AnswerTypes = RadioStatus | CheckBoxStatus[] | boolean[];
 
-export type Question = {
+export type Answer = {
+  answer: AnswerTypes;
   type: QuestionTypes;
-  question: QuestionStates;
 };
 
 export interface AllAnswerState {
-  answers: Question[];
+  answers: Answer[];
 }
 
 const initialState: AllAnswerState = {
-  answers: [
-    {
-      question: { openEnded: { question: 'Open ended 1', values: { maxLength: 10 } } },
-      type: 'Open-ended Question',
-    },
-    {
-      question: { slider: { question: 'Slider 1', values: { max: 20, min: 10 } } },
-      type: 'Slider',
-    },
-    {
-      question: {
-        choices: {
-          multipleSelection: false,
-          optionType: 'Check Box',
-          question: 'Single Choie',
-          values: ['Yes', 'No'],
-        },
-      },
-      type: 'Multiple Choice',
-    },
-    {
-      question: {
-        choices: {
-          multipleSelection: true,
-          optionType: 'Radio Button',
-          question:
-            'Multiple choice 1 bu bir denemdir daha uzun bir soru gelirse ona göre kendisni optimize etmelidir',
-          values: [
-            'C1fsaffffffafafafafadfaf adf afa affasf  a adsfdfabfasfsffsafa fas fa adsfad fa ewrewrw  t et e t',
-            'C2',
-            'C3',
-          ],
-        },
-      },
-      type: 'Multiple Choice',
-    },
-  ],
+  answers: [],
 };
 
-export const allQuestionSlice = createSlice({
-  name: 'allQuestion',
+export const allAnswerSlice = createSlice({
+  name: 'allAnswer',
   initialState,
   reducers: {
-    addQuetion: (state, action: PayloadAction<Question>) => {
-      const q = action.payload;
+    updateAllAnswer: (state, action: PayloadAction<{ answer: Answer; answerIndex: number }>) => {
+      const { answerIndex, answer } = action.payload;
 
-      state.answers.unshift(q);
-    },
-    updateQuestion: (state, action: PayloadAction<{ q: Question; questionIndex: number }>) => {
-      const { questionIndex, q } = action.payload;
-      state.answers[questionIndex] = q;
-    },
-    deleteQuestion: (state, action: PayloadAction<number>) => {
-      state.answers.splice(action.payload, 1);
+      if (state.answers[answerIndex] === undefined) {
+        state.answers.push(answer);
+      } else {
+        state.answers[answerIndex] = answer;
+      }
     },
   },
 });
 
-// Action creators are generated for each case reducer function
-export const { addQuetion, updateQuestion, deleteQuestion } = allQuestionSlice.actions;
-export default allQuestionSlice.reducer;
+export const { updateAllAnswer } = allAnswerSlice.actions;
+export default allAnswerSlice.reducer;

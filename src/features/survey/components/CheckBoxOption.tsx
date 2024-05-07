@@ -1,26 +1,38 @@
+import { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Checkbox, Text } from 'react-native-paper';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-import { CheckBoxStatus, updateAnswer } from '../utils/choiceAnswerSlice';
+import { CheckBoxStatus } from '../types';
 
-import { RootState } from '@/stores/appStore';
+import { updateAllAnswer } from '@/utils/allAnswerSlice';
 
 type Props = {
   values: string[];
+  multipleSelection: boolean;
+  questionIndex: number;
 };
 
-export const CheckBoxOption = ({ values }: Props) => {
+export const CheckBoxOption = ({ values, multipleSelection, questionIndex }: Props) => {
   const dispatch = useDispatch();
-  const checkBoxValues = useSelector((state: RootState) => state.choiceAnswer.checkBox);
+  const [checkBoxValues, setCheckBoxValues] = useState<CheckBoxStatus[]>([]);
 
   const handleOnPressCheckBox = (status: CheckBoxStatus, index: number) => {
-    console.log({ status, index });
+    const currentCheckBoxValues = [...checkBoxValues];
+
+    if (multipleSelection) {
+      currentCheckBoxValues[index] = status;
+    } else {
+      currentCheckBoxValues.forEach((_, i) => (currentCheckBoxValues[i] = 'unchecked'));
+      currentCheckBoxValues[index] = status;
+    }
+
+    setCheckBoxValues(currentCheckBoxValues);
+
     dispatch(
-      updateAnswer({
-        choiceOptionType: 'Check Box',
-        answerIndex: index,
-        value: status,
+      updateAllAnswer({
+        answer: { answer: checkBoxValues, type: 'Multiple Choice' },
+        answerIndex: questionIndex,
       }),
     );
   };

@@ -22,6 +22,17 @@ const initialState: AllQuestionState = {
     {
       question: {
         choices: {
+          multipleSelection: false,
+          optionType: 'Button',
+          question: 'Single selection button type option question test2',
+          values: ['Test1', 'Test2', 'Test3', 'Test4'],
+        },
+      },
+      type: 'Multiple Choice',
+    },
+    {
+      question: {
+        choices: {
           multipleSelection: true,
           optionType: 'Button',
           question: 'Multiple selection button type option question test example',
@@ -44,6 +55,17 @@ const initialState: AllQuestionState = {
           multipleSelection: false,
           optionType: 'Check Box',
           question: 'Single selection question test example',
+          values: ['Yes', 'No'],
+        },
+      },
+      type: 'Multiple Choice',
+    },
+    {
+      question: {
+        choices: {
+          multipleSelection: true,
+          optionType: 'Check Box',
+          question: 'Multiple selection question test example',
           values: ['Yes', 'No'],
         },
       },

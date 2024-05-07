@@ -1,32 +1,32 @@
-import { useEffect } from 'react';
+import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { RadioButton, Text } from 'react-native-paper';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-import { RadioStatus, updateAnswer } from '../utils/choiceAnswerSlice';
+import { RadioStatus } from '../types';
 
-import { RootState } from '@/stores/appStore';
+import { updateAllAnswer } from '@/utils/allAnswerSlice';
 
 type Props = {
   values: string[];
+  multipleSelection: boolean;
+  questionIndex: number;
 };
 
-export const RadioButtonOption = ({ values }: Props) => {
+export const RadioButtonOption = ({ values, questionIndex }: Props) => {
   const dispatch = useDispatch();
-  const radioValue = useSelector((state: RootState) => state.choiceAnswer.radio);
+  const [radioValue, setRadioValue] = useState<RadioStatus>('unchecked');
 
-  useEffect(() => {
-    console.log(radioValue);
-  }, [radioValue]);
+  const handleRadioValueChange = (value: string) => {
+    setRadioValue(value as RadioStatus);
 
-  const handleRadioValueChange = (value: string) =>
     dispatch(
-      updateAnswer({
-        choiceOptionType: 'Radio Button',
-        value: value as RadioStatus,
-        answerIndex: 0,
+      updateAllAnswer({
+        answer: { answer: radioValue, type: 'Multiple Choice' },
+        answerIndex: questionIndex,
       }),
     );
+  };
 
   return (
     <RadioButton.Group value={radioValue} onValueChange={handleRadioValueChange}>

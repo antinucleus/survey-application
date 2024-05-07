@@ -1,4 +1,3 @@
-import { useEffect, useLayoutEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { TextInput, Portal, Modal, Button, Text, Switch, useTheme } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';

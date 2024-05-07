@@ -7,13 +7,14 @@ import Animated, {
   withDelay,
   withTiming,
 } from 'react-native-reanimated';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { ChoiceQuestionViewer } from '../components/ChoiceQuestionViewer';
 import { OpenEndedQuestionViewer } from '../components/OpenEndedQuestionViewer';
 import { Progress } from '../components/Progress';
 import { SliderQuestionViewer } from '../components/SliderQuestionViewer';
 import { ChoicesQuestionState } from '../utils/choicesQuestionsSlice';
+import { updateCurrentAnswerKey } from '../utils/currentAnswerPropertiesSlice';
 import { OpenEndedQuestionState } from '../utils/openEndedQuestionSlice';
 import { SliderQuestionState } from '../utils/sliderQuestionSlice';
 
@@ -22,8 +23,11 @@ import { RootState } from '@/stores/appStore';
 const WINDOW_WIDTH = Dimensions.get('window').width;
 
 export const TakeSurvey = () => {
+  const dispatch = useDispatch();
   const { dark } = useTheme();
   const allQuestions = useSelector((state: RootState) => state.allQuestion.questions);
+  const allAnswer = useSelector((state: RootState) => state.allAnswer.answers);
+
   const [current, setCurrent] = useState(0);
   const [disableButton, setDisableButton] = useState(false);
 
@@ -52,6 +56,8 @@ export const TakeSurvey = () => {
 
   const handleChangeQuestion = (direction: number) => {
     setDisableButton(true);
+    removeTheQuestionAnimation(direction);
+    dispatch(updateCurrentAnswerKey(current));
 
     setTimeout(() => {
       setCurrent((c) => c + direction);
@@ -61,8 +67,14 @@ export const TakeSurvey = () => {
     setTimeout(() => {
       setDisableButton(false);
     }, 1200);
+  };
 
-    removeTheQuestionAnimation(direction);
+  const showAllAnswers = () => {
+    let i = 0;
+    for (const el of allAnswer) {
+      console.log(`\nANSWER ${i}: ${el.answer}\n`);
+      i++;
+    }
   };
 
   return (
@@ -73,6 +85,7 @@ export const TakeSurvey = () => {
           if (type === 'Multiple Choice') {
             return (
               <ChoiceQuestionViewer
+                questionIndex={i}
                 show={current === i}
                 question={question as ChoicesQuestionState}
                 key={`${type}-${i}`}
@@ -108,6 +121,8 @@ export const TakeSurvey = () => {
           disabled={current === 0 || disableButton}>
           Previous
         </Button>
+        <Button onPress={showAllAnswers}>SHow AllAns</Button>
+
         <Button
           style={styles.bottomButtons}
           mode="outlined"

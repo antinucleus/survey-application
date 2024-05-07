@@ -6,9 +6,15 @@ import { CheckBoxOption } from './CheckBoxOption';
 import { RadioButtonOption } from './RadioButtonOption';
 import { ChoicesQuestionState } from '../utils/choicesQuestionsSlice';
 
-type Props = { question: ChoicesQuestionState; show: boolean };
+type Props = { question: ChoicesQuestionState; show: boolean; questionIndex: number };
 
-export const ChoiceQuestionViewer = ({ question, show }: Props) => {
+export const ChoiceQuestionViewer = ({
+  question: {
+    choices: { values, multipleSelection, optionType, question },
+  },
+  show,
+  questionIndex,
+}: Props) => {
   return (
     <Card
       style={{
@@ -16,20 +22,32 @@ export const ChoiceQuestionViewer = ({ question, show }: Props) => {
         display: show ? 'flex' : 'none',
       }}>
       <Card.Content>
-        <Text variant="titleMedium">{question.choices.question}</Text>
-        {question.choices.optionType === 'Radio Button' && (
+        <Text variant="titleMedium">{question}</Text>
+        {optionType === 'Radio Button' && (
           <View style={{ marginTop: 10 }}>
-            <RadioButtonOption values={question.choices.values} />
+            <RadioButtonOption
+              questionIndex={questionIndex}
+              values={values}
+              multipleSelection={multipleSelection}
+            />
           </View>
         )}
-        {question.choices.optionType === 'Check Box' && (
+        {optionType === 'Check Box' && (
           <View style={{ marginTop: 10 }}>
-            <CheckBoxOption values={question.choices.values} />
+            <CheckBoxOption
+              questionIndex={questionIndex}
+              values={values}
+              multipleSelection={multipleSelection}
+            />
           </View>
         )}
-        {question.choices.optionType === 'Button' && (
+        {optionType === 'Button' && (
           <View style={{ marginTop: 10 }}>
-            <ButtonOption values={question.choices.values} />
+            <ButtonOption
+              questionIndex={questionIndex}
+              values={values}
+              multipleSelection={multipleSelection}
+            />
           </View>
         )}
       </Card.Content>

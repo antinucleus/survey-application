@@ -1,26 +1,36 @@
+import { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Button } from 'react-native-paper';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-import { updateAnswer } from '../utils/choiceAnswerSlice';
-
-import { RootState } from '@/stores/appStore';
+import { updateAllAnswer } from '@/utils/allAnswerSlice';
 
 type Props = {
   values: string[];
+  multipleSelection: boolean;
+  questionIndex: number;
 };
 
-export const ButtonOption = ({ values }: Props) => {
+export const ButtonOption = ({ values, multipleSelection, questionIndex }: Props) => {
   const dispatch = useDispatch();
-  const buttonValues = useSelector((state: RootState) => state.choiceAnswer.button);
+  const [buttonValues, setButtonValues] = useState<boolean[]>([]);
 
   const handleOnPressButton = (status: boolean, index: number) => {
-    console.log({ status, index });
+    const currentButtonValues = [...buttonValues];
+
+    if (multipleSelection) {
+      currentButtonValues[index] = status;
+    } else {
+      currentButtonValues.forEach((_, i) => (currentButtonValues[i] = false));
+      currentButtonValues[index] = status;
+    }
+
+    setButtonValues(currentButtonValues);
+
     dispatch(
-      updateAnswer({
-        choiceOptionType: 'Button',
-        answerIndex: index,
-        value: status,
+      updateAllAnswer({
+        answer: { answer: currentButtonValues, type: 'Multiple Choice' },
+        answerIndex: questionIndex,
       }),
     );
   };

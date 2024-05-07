@@ -3,7 +3,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 
 import { QuestionTypes } from '../types';
 
-type QuestionOperation = 'Add' | 'Update';
+export type QuestionOperation = 'Add' | 'Update';
 
 export interface CurrentQuestionPropertiesState {
   questionType: QuestionTypes;

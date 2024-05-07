@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Dimensions, View } from 'react-native';
-import { Surface, useTheme, Text, Button } from 'react-native-paper';
+import { Dimensions, StyleSheet, View } from 'react-native';
+import { Surface, useTheme, Button } from 'react-native-paper';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -10,7 +10,12 @@ import Animated, {
 import { useSelector } from 'react-redux';
 
 import { ChoiceQuestionViewer } from '../components/ChoiceQuestionViewer';
+import { OpenEndedQuestionViewer } from '../components/OpenEndedQuestionViewer';
+import { Progress } from '../components/Progress';
+import { SliderQuestionViewer } from '../components/SliderQuestionViewer';
 import { ChoicesQuestionState } from '../utils/choicesQuestionsSlice';
+import { OpenEndedQuestionState } from '../utils/openEndedQuestionSlice';
+import { SliderQuestionState } from '../utils/sliderQuestionSlice';
 
 import { RootState } from '@/stores/appStore';
 
@@ -25,7 +30,7 @@ export const TakeSurvey = () => {
   const positionX = useSharedValue(0);
   const opacicty = useSharedValue(1);
 
-  const testAnimatedStyle = useAnimatedStyle(() => {
+  const questionAnimatedStyle = useAnimatedStyle(() => {
     return {
       transform: [{ translateX: positionX.value }],
       opacity: opacicty.value,
@@ -37,9 +42,9 @@ export const TakeSurvey = () => {
     positionX.value = withTiming(0, { duration: 700 });
   };
 
-  const removeTheQuestionAnimation = () => {
+  const removeTheQuestionAnimation = (direction: number) => {
     opacicty.value = withTiming(0, { duration: 800 });
-    positionX.value = withDelay(200, withTiming(WINDOW_WIDTH, { duration: 800 }));
+    positionX.value = withDelay(200, withTiming(direction * WINDOW_WIDTH, { duration: 800 }));
   };
 
   const handleNext = () => {
@@ -54,7 +59,7 @@ export const TakeSurvey = () => {
       setDisableButton(false);
     }, 1200);
 
-    removeTheQuestionAnimation();
+    removeTheQuestionAnimation(-1);
   };
 
   const handlePrevious = () => {
@@ -69,24 +74,13 @@ export const TakeSurvey = () => {
       setDisableButton(false);
     }, 1200);
 
-    removeTheQuestionAnimation();
+    removeTheQuestionAnimation(1);
   };
 
   return (
-    <Surface
-      style={{
-        flex: 1,
-        width: '100%',
-        height: '100%',
-        backgroundColor: dark ? 'black' : 'white',
-        padding: 10,
-      }}>
-      <View style={{ marginVertical: 10 }}>
-        <Text>Question {current + 1} </Text>
-        <Text>Time </Text>
-      </View>
-
-      <Animated.ScrollView style={[{ height: '80%' }, testAnimatedStyle]}>
+    <Surface style={[styles.container, { backgroundColor: dark ? 'black' : 'white' }]}>
+      <Progress question={current} />
+      <Animated.ScrollView style={[styles.questionContainer, questionAnimatedStyle]}>
         {allQuestions.map(({ question, type }, i) => {
           if (type === 'Multiple Choice') {
             return (
@@ -97,19 +91,37 @@ export const TakeSurvey = () => {
               />
             );
           }
+          if (type === 'Slider') {
+            return (
+              <SliderQuestionViewer
+                show={current === i}
+                question={question as SliderQuestionState}
+                key={`${type}-${i}`}
+              />
+            );
+          }
+          if (type === 'Open-ended Question') {
+            return (
+              <OpenEndedQuestionViewer
+                show={current === i}
+                question={question as OpenEndedQuestionState}
+                key={`${type}-${i}`}
+              />
+            );
+          }
         })}
       </Animated.ScrollView>
 
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+      <View style={styles.bottomButtonContainer}>
         <Button
-          style={{ width: '30%', alignSelf: 'center', marginVertical: 10 }}
+          style={styles.bottomButtons}
           mode="outlined"
           onPress={handlePrevious}
           disabled={current === 0 || disableButton}>
           Previous
         </Button>
         <Button
-          style={{ width: '30%', alignSelf: 'center', marginVertical: 10 }}
+          style={styles.bottomButtons}
           mode="outlined"
           onPress={handleNext}
           disabled={current === allQuestions.length - 1 || disableButton}>
@@ -119,3 +131,19 @@ export const TakeSurvey = () => {
     </Surface>
   );
 };
+
+const styles = StyleSheet.create({
+  bottomButtons: {
+    width: '30%',
+    alignSelf: 'center',
+    marginVertical: 10,
+  },
+  bottomButtonContainer: { flexDirection: 'row', justifyContent: 'space-between' },
+  container: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+    padding: 10,
+  },
+  questionContainer: { height: '80%' },
+});

@@ -20,6 +20,14 @@ export interface AllQuestionState {
 const initialState: AllQuestionState = {
   questions: [
     {
+      question: { openEnded: { question: 'Open ended 1', values: { maxLength: 10 } } },
+      type: 'Open-ended Question',
+    },
+    {
+      question: { slider: { question: 'Slider 1', values: { max: 20, min: 10 } } },
+      type: 'Slider',
+    },
+    {
       question: {
         choices: {
           multipleSelection: false,
@@ -47,14 +55,6 @@ const initialState: AllQuestionState = {
         },
       },
       type: 'Multiple Choice',
-    },
-    {
-      question: { openEnded: { question: 'Open ended 1', values: { maxLength: 10 } } },
-      type: 'Open-ended Question',
-    },
-    {
-      question: { slider: { question: 'Slider 1', values: { max: 20, min: 10 } } },
-      type: 'Slider',
     },
   ],
 };

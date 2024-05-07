@@ -1,11 +1,12 @@
 import Slider from '@react-native-community/slider';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { Card, Text } from 'react-native-paper';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { SliderQuestionState } from '../utils/sliderQuestionSlice';
 
+import { RootState } from '@/stores/appStore';
 import { updateAllAnswer } from '@/utils/allAnswerSlice';
 
 type Props = { question: SliderQuestionState; show: boolean; questionIndex: number };
@@ -13,6 +14,13 @@ type Props = { question: SliderQuestionState; show: boolean; questionIndex: numb
 export const SliderQuestionViewer = ({ question, show, questionIndex }: Props) => {
   const dispatch = useDispatch();
   const [sliderValue, setSliderValue] = useState(question.slider.values.min);
+  const allAnswer = useSelector((state: RootState) => state.allAnswer.answers);
+
+  useEffect(() => {
+    if (allAnswer && allAnswer.length > 0) {
+      setSliderValue(allAnswer[questionIndex].answer as number);
+    }
+  }, []);
 
   const handleSliderChange = (v: number) => setSliderValue(v);
 

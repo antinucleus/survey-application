@@ -14,6 +14,7 @@ import { setSlider, SliderQuestionState } from '../utils/sliderQuestionSlice';
 
 import { RootState } from '@/stores/appStore';
 import { deleteQuestion } from '@/utils/allQuestionSlice';
+import { addSurvey } from '@/utils/allSurveySlice';
 
 type Props = { listItemOnPress: () => void };
 
@@ -60,6 +61,8 @@ export const QuestionsList = ({ listItemOnPress }: Props) => {
     for (const q of allQuestion) {
       console.log(q.question);
     }
+
+    dispatch(addSurvey({ survey: allQuestion, title: 'Test Survey Title 1' }));
   };
 
   return (

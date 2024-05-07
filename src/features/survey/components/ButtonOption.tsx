@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Button } from 'react-native-paper';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
+import { RootState } from '@/stores/appStore';
 import { updateAllAnswer } from '@/utils/allAnswerSlice';
 
 type Props = {
@@ -14,6 +15,13 @@ type Props = {
 export const ButtonOption = ({ values, multipleSelection, questionIndex }: Props) => {
   const dispatch = useDispatch();
   const [buttonValues, setButtonValues] = useState<boolean[]>([]);
+  const allAnswer = useSelector((state: RootState) => state.allAnswer.answers);
+
+  useEffect(() => {
+    if (allAnswer && allAnswer.length > 0) {
+      setButtonValues(allAnswer[questionIndex].answer as boolean[]);
+    }
+  }, []);
 
   const handleButtonOnPress = (status: boolean, index: number) => {
     const currentButtonValues = [...buttonValues];

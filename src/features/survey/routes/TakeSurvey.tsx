@@ -90,7 +90,7 @@ export const TakeSurvey = () => {
   return (
     <Surface style={[styles.container, { backgroundColor: dark ? 'black' : 'white' }]}>
       <Progress question={current} />
-      <Snackbar duration={5} visible={showMessage !== ''} onDismiss={onDismissSnackbar}>
+      <Snackbar visible={showMessage !== ''} onDismiss={onDismissSnackbar}>
         {showMessage}
       </Snackbar>
       <Animated.ScrollView style={[styles.questionContainer, questionAnimatedStyle]}>

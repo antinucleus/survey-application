@@ -21,10 +21,10 @@ export const App = (): React.JSX.Element => {
         <PaperProvider theme={theme}>
           <StatusBar />
           <SafeAreaView style={styles.container}>
-            <TakeSurvey />
+            {/* <TakeSurvey />
 
-            {/* <CreateSurvey /> */}
-            {/* <Routes /> */}
+            <CreateSurvey /> */}
+            <Routes />
           </SafeAreaView>
         </PaperProvider>
       </Provider>

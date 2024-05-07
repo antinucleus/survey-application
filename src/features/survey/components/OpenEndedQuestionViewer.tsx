@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { StyleSheet, ScrollView } from 'react-native';
 import { Card, Text, TextInput } from 'react-native-paper';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { OpenEndedQuestionState } from '../utils/openEndedQuestionSlice';
 
+import { RootState } from '@/stores/appStore';
 import { updateAllAnswer } from '@/utils/allAnswerSlice';
 
 type Props = { question: OpenEndedQuestionState; show: boolean; questionIndex: number };
@@ -12,6 +13,13 @@ type Props = { question: OpenEndedQuestionState; show: boolean; questionIndex: n
 export const OpenEndedQuestionViewer = ({ question, show, questionIndex }: Props) => {
   const dispatch = useDispatch();
   const [answer, setAnswer] = useState('');
+  const allAnswer = useSelector((state: RootState) => state.allAnswer.answers);
+
+  useEffect(() => {
+    if (allAnswer && allAnswer.length > 0) {
+      setAnswer(allAnswer[questionIndex].answer as string);
+    }
+  }, []);
 
   const handleAnswerChange = (e: string) => {
     dispatch(

@@ -12,16 +12,16 @@ const saveItem = async (key: string, value: string) => {
   return success;
 };
 
-const getItem = async (key: string) => {
+const getStoreValue = async (key: string) => {
   try {
     const result = await SecureStore.getItemAsync(key);
-    return result;
+    return JSON.parse(result || '');
   } catch (error) {
     return null;
   }
 };
 
-const deleteItem = async (key: string) => {
+const deleteStoreValue = async (key: string) => {
   let success = true;
 
   try {
@@ -33,4 +33,4 @@ const deleteItem = async (key: string) => {
   return success;
 };
 
-export { saveItem, deleteItem, getItem };
+export { saveItem, deleteStoreValue, getStoreValue };

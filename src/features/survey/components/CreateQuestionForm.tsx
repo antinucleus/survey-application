@@ -45,8 +45,6 @@ export const CreateQuestionForm = ({ modalVisibility, handleCloseQuestionForm }:
   let resetFunc: any;
   let questionState: ChoicesQuestionState | SliderQuestionState | OpenEndedQuestionState;
 
-  console.log({ questionType });
-
   if (questionType === 'Multiple Choice') {
     question = choicesQuestion.choices.question;
     updateFunc = updateChoiceQuestion;

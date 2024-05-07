@@ -7,6 +7,7 @@ import openEndedQuestionReducer from '@/features/survey/utils/openEndedQuestionS
 import sliderQuestionReducer from '@/features/survey/utils/sliderQuestionSlice';
 import allAnswerReducer from '@/utils/allAnswerSlice';
 import allQuestionReducer from '@/utils/allQuestionSlice';
+import allSurveyReducer from '@/utils/allSurveySlice';
 
 export const store = configureStore({
   reducer: {
@@ -17,6 +18,7 @@ export const store = configureStore({
     openEndedQuestion: openEndedQuestionReducer,
     allQuestion: allQuestionReducer,
     allAnswer: allAnswerReducer,
+    allSurvey: allSurveyReducer,
   },
 });
 

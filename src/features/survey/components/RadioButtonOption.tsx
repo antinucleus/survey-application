@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { RadioButton, Text } from 'react-native-paper';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { RadioStatus } from '../types';
 
+import { RootState } from '@/stores/appStore';
 import { updateAllAnswer } from '@/utils/allAnswerSlice';
 
 type Props = {
@@ -16,6 +17,13 @@ type Props = {
 export const RadioButtonOption = ({ values, questionIndex }: Props) => {
   const dispatch = useDispatch();
   const [radioValue, setRadioValue] = useState<RadioStatus>('unchecked');
+  const allAnswer = useSelector((state: RootState) => state.allAnswer.answers);
+
+  useEffect(() => {
+    if (allAnswer && allAnswer.length > 0) {
+      setRadioValue(allAnswer[questionIndex].answer as RadioStatus);
+    }
+  }, []);
 
   const handleRadioValueChange = (value: string) => {
     setRadioValue(value as RadioStatus);

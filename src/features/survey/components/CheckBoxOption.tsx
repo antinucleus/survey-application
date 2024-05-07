@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Checkbox, Text } from 'react-native-paper';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { CheckBoxStatus } from '../types';
 
+import { RootState } from '@/stores/appStore';
 import { updateAllAnswer } from '@/utils/allAnswerSlice';
 
 type Props = {
@@ -16,6 +17,13 @@ type Props = {
 export const CheckBoxOption = ({ values, multipleSelection, questionIndex }: Props) => {
   const dispatch = useDispatch();
   const [checkBoxValues, setCheckBoxValues] = useState<CheckBoxStatus[]>([]);
+  const allAnswer = useSelector((state: RootState) => state.allAnswer.answers);
+
+  useEffect(() => {
+    if (allAnswer && allAnswer.length > 0) {
+      setCheckBoxValues(allAnswer[questionIndex].answer as CheckBoxStatus[]);
+    }
+  }, []);
 
   const handleOnPressCheckBox = (status: CheckBoxStatus, index: number) => {
     const currentCheckBoxValues = [...checkBoxValues];

@@ -20,6 +20,23 @@ export interface AllQuestionState {
 const initialState: AllQuestionState = {
   questions: [
     {
+      question: { slider: { question: 'Slider 1', values: { max: 200, min: 10 } } },
+      type: 'Slider',
+    },
+    {
+      question: { slider: { question: 'Slider 2', values: { max: 5, min: -5 } } },
+      type: 'Slider',
+    },
+    {
+      question: { openEnded: { question: 'Open ended 1 max len 10', values: { maxLength: 10 } } },
+      type: 'Open-ended Question',
+    },
+    {
+      question: { openEnded: { question: 'Open ended 2 max len 100', values: { maxLength: 100 } } },
+      type: 'Open-ended Question',
+    },
+
+    {
       question: {
         choices: {
           multipleSelection: false,
@@ -71,19 +88,23 @@ const initialState: AllQuestionState = {
       },
       type: 'Multiple Choice',
     },
+
     {
-      question: { openEnded: { question: 'Open ended 1', values: { maxLength: 10 } } },
-      type: 'Open-ended Question',
-    },
-    {
-      question: { slider: { question: 'Slider 1', values: { max: 200, min: 10 } } },
-      type: 'Slider',
+      question: {
+        choices: {
+          multipleSelection: false,
+          optionType: 'Radio Button',
+          question: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+          values: ['test', 'sefasfsf', 'sdfsdf'],
+        },
+      },
+      type: 'Multiple Choice',
     },
 
     {
       question: {
         choices: {
-          multipleSelection: true,
+          multipleSelection: false,
           optionType: 'Radio Button',
           question:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus commodo faucibus enim sed molestie. Duis eleifend sapien quis lorem vestibulum consequat. Sed mollis sapien eget mollis aliquet. Nunc dictum aliquam purus sit amet finibus. Nam ut magna sed ex scelerisque egestas. Proin consectetur, urna aliquam pulvinar pretium, orci ante tincidunt nunc, vitae euismod turpis lectus at lectus. Praesent pretium ligula dui, sit amet ornare felis congue eget. Pellentesque ullamcorper nisi neque. Mauris a turpis cursus, hendrerit odio quis, finibus enim. Pellentesque pulvinar risus eget iaculis aliquet. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. In molestie. ',

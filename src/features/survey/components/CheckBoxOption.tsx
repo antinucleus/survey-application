@@ -31,7 +31,7 @@ export const CheckBoxOption = ({ values, multipleSelection, questionIndex }: Pro
 
     dispatch(
       updateAllAnswer({
-        answer: { answer: checkBoxValues, type: 'Multiple Choice' },
+        answer: { answer: currentCheckBoxValues, type: 'Multiple Choice' },
         answerIndex: questionIndex,
       }),
     );

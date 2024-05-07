@@ -70,6 +70,9 @@ export const TakeSurvey = () => {
   };
 
   const showAllAnswers = () => {
+    if (allAnswer.length !== allQuestions.length) {
+      console.log('ERROR COMPLETE ALL QUESTIONS');
+    }
     let i = 0;
     for (const el of allAnswer) {
       console.log(`\nANSWER ${i}: ${el.answer}\n`);
@@ -95,6 +98,7 @@ export const TakeSurvey = () => {
           if (type === 'Slider') {
             return (
               <SliderQuestionViewer
+                questionIndex={i}
                 show={current === i}
                 question={question as SliderQuestionState}
                 key={`${type}-${i}`}
@@ -104,6 +108,7 @@ export const TakeSurvey = () => {
           if (type === 'Open-ended Question') {
             return (
               <OpenEndedQuestionViewer
+                questionIndex={i}
                 show={current === i}
                 question={question as OpenEndedQuestionState}
                 key={`${type}-${i}`}
@@ -121,15 +126,28 @@ export const TakeSurvey = () => {
           disabled={current === 0 || disableButton}>
           Previous
         </Button>
-        <Button onPress={showAllAnswers}>SHow AllAns</Button>
 
-        <Button
-          style={styles.bottomButtons}
-          mode="outlined"
-          onPress={() => handleChangeQuestion(1)}
-          disabled={current === allQuestions.length - 1 || disableButton}>
-          Next
-        </Button>
+        {current === allQuestions.length - 1 ? (
+          <Button
+            mode="contained"
+            onPress={showAllAnswers}
+            style={[styles.bottomButtons, { width: '50%' }]}
+            disabled={disableButton || allAnswer[current] === undefined}>
+            Complete
+          </Button>
+        ) : (
+          <Button
+            style={styles.bottomButtons}
+            mode="outlined"
+            onPress={() => handleChangeQuestion(1)}
+            disabled={
+              current === allQuestions.length - 1 ||
+              disableButton ||
+              allAnswer[current] === undefined
+            }>
+            Next
+          </Button>
+        )}
       </View>
     </Surface>
   );

@@ -22,7 +22,7 @@ export const RadioButtonOption = ({ values, questionIndex }: Props) => {
 
     dispatch(
       updateAllAnswer({
-        answer: { answer: radioValue, type: 'Multiple Choice' },
+        answer: { answer: value as RadioStatus, type: 'Multiple Choice' },
         answerIndex: questionIndex,
       }),
     );

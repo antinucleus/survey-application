@@ -1,15 +1,27 @@
 import { useState } from 'react';
 import { StyleSheet, ScrollView } from 'react-native';
 import { Card, Text, TextInput } from 'react-native-paper';
+import { useDispatch } from 'react-redux';
 
 import { OpenEndedQuestionState } from '../utils/openEndedQuestionSlice';
 
-type Props = { question: OpenEndedQuestionState; show: boolean };
+import { updateAllAnswer } from '@/utils/allAnswerSlice';
 
-export const OpenEndedQuestionViewer = ({ question, show }: Props) => {
-  const [ans, setAns] = useState('');
+type Props = { question: OpenEndedQuestionState; show: boolean; questionIndex: number };
 
-  const handleAnswerChange = (e: string) => setAns(e);
+export const OpenEndedQuestionViewer = ({ question, show, questionIndex }: Props) => {
+  const dispatch = useDispatch();
+  const [answer, setAnswer] = useState('');
+
+  const handleAnswerChange = (e: string) => {
+    dispatch(
+      updateAllAnswer({
+        answer: { answer: e, type: 'Open-ended Question' },
+        answerIndex: questionIndex,
+      }),
+    );
+    setAnswer(e);
+  };
 
   return (
     <Card style={[styles.card, { display: show ? 'flex' : 'none' }]}>
@@ -17,11 +29,12 @@ export const OpenEndedQuestionViewer = ({ question, show }: Props) => {
         <Text variant="titleMedium">{question.openEnded.question}</Text>
         <ScrollView style={{ height: '100%', overflow: 'scroll' }}>
           <TextInput
-            maxLength={250}
+            maxLength={question.openEnded.values.maxLength}
             autoCorrect={false}
             mode="outlined"
             label="Answer"
-            value={ans}
+            placeholder="Enter your answer here"
+            value={answer}
             onChangeText={handleAnswerChange}
           />
         </ScrollView>

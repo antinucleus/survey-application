@@ -3,7 +3,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 
 import { CheckBoxStatus, QuestionTypes, RadioStatus } from '@/features/survey/types';
 
-type AnswerTypes = RadioStatus | CheckBoxStatus[] | boolean[];
+type AnswerTypes = RadioStatus | CheckBoxStatus[] | boolean[] | string | number;
 
 export type Answer = {
   answer: AnswerTypes;

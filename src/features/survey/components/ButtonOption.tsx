@@ -15,7 +15,7 @@ export const ButtonOption = ({ values, multipleSelection, questionIndex }: Props
   const dispatch = useDispatch();
   const [buttonValues, setButtonValues] = useState<boolean[]>([]);
 
-  const handleOnPressButton = (status: boolean, index: number) => {
+  const handleButtonOnPress = (status: boolean, index: number) => {
     const currentButtonValues = [...buttonValues];
 
     if (multipleSelection) {
@@ -25,14 +25,13 @@ export const ButtonOption = ({ values, multipleSelection, questionIndex }: Props
       currentButtonValues[index] = status;
     }
 
-    setButtonValues(currentButtonValues);
-
     dispatch(
       updateAllAnswer({
         answer: { answer: currentButtonValues, type: 'Multiple Choice' },
         answerIndex: questionIndex,
       }),
     );
+    setButtonValues(currentButtonValues);
   };
 
   return (
@@ -43,7 +42,7 @@ export const ButtonOption = ({ values, multipleSelection, questionIndex }: Props
             theme={{ roundness: 2 }}
             mode={buttonValues[i] ? 'contained' : 'text'}
             onPress={() => {
-              handleOnPressButton(!buttonValues[i], i);
+              handleButtonOnPress(!buttonValues[i], i);
             }}>
             {c}
           </Button>

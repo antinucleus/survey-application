@@ -20,12 +20,23 @@ export interface AllQuestionState {
 const initialState: AllQuestionState = {
   questions: [
     {
-      question: { openEnded: { question: 'Open ended 1', values: { maxLength: 10 } } },
-      type: 'Open-ended Question',
-    },
-    {
-      question: { slider: { question: 'Slider 1', values: { max: 200, min: 10 } } },
-      type: 'Slider',
+      question: {
+        choices: {
+          multipleSelection: true,
+          optionType: 'Button',
+          question: 'Multiple selection button type option question test example',
+          values: [
+            'Test1',
+            'Test2',
+            'Test3',
+            'Test4',
+            'Test5',
+            'Test6',
+            'Long long long long text',
+          ],
+        },
+      },
+      type: 'Multiple Choice',
     },
     {
       question: {
@@ -38,6 +49,15 @@ const initialState: AllQuestionState = {
       },
       type: 'Multiple Choice',
     },
+    {
+      question: { openEnded: { question: 'Open ended 1', values: { maxLength: 10 } } },
+      type: 'Open-ended Question',
+    },
+    {
+      question: { slider: { question: 'Slider 1', values: { max: 200, min: 10 } } },
+      type: 'Slider',
+    },
+
     {
       question: {
         choices: {

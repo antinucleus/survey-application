@@ -46,15 +46,15 @@ export const TakeSurvey = () => {
     opacicty.value = withTiming(0, { duration: 800 });
     positionX.value = withDelay(
       200,
-      withTiming(direction * (WINDOW_WIDTH + 50), { duration: 800 }),
+      withTiming(direction * -(WINDOW_WIDTH + 50), { duration: 800 }),
     );
   };
 
-  const handleNext = () => {
+  const handleChangeQuestion = (direction: number) => {
     setDisableButton(true);
 
     setTimeout(() => {
-      setCurrent((c) => c + 1);
+      setCurrent((c) => c + direction);
       bringTheQuestionAnimation();
     }, 700);
 
@@ -62,22 +62,7 @@ export const TakeSurvey = () => {
       setDisableButton(false);
     }, 1200);
 
-    removeTheQuestionAnimation(-1);
-  };
-
-  const handlePrevious = () => {
-    setDisableButton(true);
-
-    setTimeout(() => {
-      setCurrent((c) => c - 1);
-      bringTheQuestionAnimation();
-    }, 700);
-
-    setTimeout(() => {
-      setDisableButton(false);
-    }, 1200);
-
-    removeTheQuestionAnimation(1);
+    removeTheQuestionAnimation(direction);
   };
 
   return (
@@ -119,14 +104,14 @@ export const TakeSurvey = () => {
         <Button
           style={styles.bottomButtons}
           mode="outlined"
-          onPress={handlePrevious}
+          onPress={() => handleChangeQuestion(-1)}
           disabled={current === 0 || disableButton}>
           Previous
         </Button>
         <Button
           style={styles.bottomButtons}
           mode="outlined"
-          onPress={handleNext}
+          onPress={() => handleChangeQuestion(1)}
           disabled={current === allQuestions.length - 1 || disableButton}>
           Next
         </Button>

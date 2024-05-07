@@ -22,39 +22,22 @@ export const choicesAnswerSlice = createSlice({
   name: 'choicesAnswer',
   initialState,
   reducers: {
-    addAnswer: (
-      state,
-      action: PayloadAction<{
-        choiceOptionType: ChoiceOptionTypes;
-        value: RadioStatus | CheckBoxStatus[] | boolean[];
-      }>,
-    ) => {
-      const { choiceOptionType, value } = action.payload;
-      if (choiceOptionType === 'Radio Button') {
-        state.radio = value as RadioStatus;
-      } else if (choiceOptionType === 'Check Box') {
-        state.checkBox.push(...(value as CheckBoxStatus[]));
-      } else if (choiceOptionType === 'Button') {
-        state.button.push(...(value as boolean[]));
-      }
-    },
-
     updateAnswer: (
       state,
       action: PayloadAction<{
         choiceOptionType: ChoiceOptionTypes;
         answerIndex: number;
-        value: RadioStatus | CheckBoxStatus[] | boolean[];
+        value: RadioStatus | CheckBoxStatus | boolean;
       }>,
     ) => {
-      const { value, choiceOptionType } = action.payload;
+      const { value, choiceOptionType, answerIndex } = action.payload;
 
       if (choiceOptionType === 'Radio Button') {
         state.radio = value as RadioStatus;
       } else if (choiceOptionType === 'Check Box') {
-        state.checkBox = [...(value as CheckBoxStatus[])];
+        state.checkBox[answerIndex] = value as CheckBoxStatus;
       } else if (choiceOptionType === 'Button') {
-        state.button = [...(value as boolean[])];
+        state.button[answerIndex] = value as boolean;
       }
     },
 
@@ -68,5 +51,5 @@ export const choicesAnswerSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { addAnswer, resetAnswer, setAnswer, updateAnswer } = choicesAnswerSlice.actions;
+export const { resetAnswer, setAnswer, updateAnswer } = choicesAnswerSlice.actions;
 export default choicesAnswerSlice.reducer;

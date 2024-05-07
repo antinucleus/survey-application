@@ -20,14 +20,6 @@ export interface AllQuestionState {
 const initialState: AllQuestionState = {
   questions: [
     {
-      question: { openEnded: { question: 'Open ended 1', values: { maxLength: 10 } } },
-      type: 'Open-ended Question',
-    },
-    {
-      question: { slider: { question: 'Slider 1', values: { max: 20, min: 10 } } },
-      type: 'Slider',
-    },
-    {
       question: {
         choices: {
           multipleSelection: false,
@@ -49,10 +41,20 @@ const initialState: AllQuestionState = {
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec gravida lacus risus, finibus sagittis nibh tristique vel. Vivamus sit amet. ',
             'Maecenas sagittis tellus eget elit sodales, posuere pellentesque leo imperdiet. Etiam accumsan. ',
             'Nam bibendum neque nec ante posuere ultricies. Mauris sed congue odio. Curabitur eget tristique dui. Aenean porttitor malesuada turpis, a. ',
+            'Nullam euismod quam sed diam rutrum, ut vulputate ex blandit. Ut viverra non massa eu elementum. Nulla lobortis enim non. ',
+            'Integer a turpis tortor. Curabitur ac quam rutrum, facilisis enim a, tincidunt quam. Ut elementum sit amet nulla in pharetra. ',
           ],
         },
       },
       type: 'Multiple Choice',
+    },
+    {
+      question: { openEnded: { question: 'Open ended 1', values: { maxLength: 10 } } },
+      type: 'Open-ended Question',
+    },
+    {
+      question: { slider: { question: 'Slider 1', values: { max: 20, min: 10 } } },
+      type: 'Slider',
     },
   ],
 };

@@ -8,7 +8,7 @@ import { ChoicesQuestionState } from '../utils/choicesQuestionsSlice';
 
 import { RootState } from '@/stores/appStore';
 
-type Props = { question: ChoicesQuestionState };
+type Props = { question: ChoicesQuestionState; show: boolean };
 
 const Radio = ({ values }: { values: string[] }) => {
   const dispatch = useDispatch();
@@ -63,9 +63,13 @@ const Check = ({ values }: { values: string[] }) => {
   );
 };
 
-export const ChoiceQuestionViewer = ({ question }: Props) => {
+export const ChoiceQuestionViewer = ({ question, show }: Props) => {
   return (
-    <Card style={{ marginTop: 10 }}>
+    <Card
+      style={{
+        marginTop: 10,
+        display: show ? 'flex' : 'none',
+      }}>
       <Card.Content>
         <Text variant="titleMedium">{question.choices.question}</Text>
         {question.choices.optionType === 'Radio Button' && (

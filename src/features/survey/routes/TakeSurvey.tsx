@@ -44,7 +44,10 @@ export const TakeSurvey = () => {
 
   const removeTheQuestionAnimation = (direction: number) => {
     opacicty.value = withTiming(0, { duration: 800 });
-    positionX.value = withDelay(200, withTiming(direction * WINDOW_WIDTH, { duration: 800 }));
+    positionX.value = withDelay(
+      200,
+      withTiming(direction * (WINDOW_WIDTH + 50), { duration: 800 }),
+    );
   };
 
   const handleNext = () => {

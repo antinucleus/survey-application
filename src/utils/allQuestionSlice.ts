@@ -24,7 +24,7 @@ const initialState: AllQuestionState = {
       type: 'Open-ended Question',
     },
     {
-      question: { slider: { question: 'Slider 1', values: { max: 20, min: 10 } } },
+      question: { slider: { question: 'Slider 1', values: { max: 200, min: 10 } } },
       type: 'Slider',
     },
     {

@@ -1,0 +1,125 @@
+<div align="center">
+  <a name="title"></a>
+  <h3 align="center">Survey Application</h3>
+  
+  <p align="center">
+    A mobile application that provides creating and taking surveys.
+    <br />
+    <br />
+    <a href="https://github.com/chsdwn/survey-application/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/chsdwn/survey-application//issues">Request Feature</a>
+  </p>
+</div>
+
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#tech-stack">Tech Stack</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
+      </ul>
+    </li>
+    <li><a href="#contact">Contact</a></li>
+  </ol>
+</details>
+
+## About The Project
+
+<p align="center">A mobile application that provides creating and taking surveys.</p>
+
+### Demo
+
+//
+
+### Screenshots
+
+#### Create Survey
+
+//
+
+#### Take Survey
+
+//
+
+#### Loading
+
+//
+
+### Tech Stack
+| Library            | Category         | Version | Description                                                                                                               |
+| ------------------ | ---------------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
+| Expo               | Mobile Framework | v50     | An open-source platform for making universal native apps for Android, iOS, and the web with JavaScript and React.         |
+| React              | UI Framework     | v18     | The most popular UI framework in the world                                                                                |
+| TypeScript         | Language         | v5      | Static typechecking                                                                                                       |
+| React Navigation   | Navigation       | v6      | Performant and consistent navigation framework                                                                            |
+| React Native Paper | UI               | v5      | Material Design for React Native                                                                                          |
+| Redux              | State Management | v9      | Widely used state-management                                                                                              |
+| axios              | REST client      | v1      | Communicate with back-end                                                                                                 |
+| Flipper            | Debugger         |         | Native debugging                                                                                                          |
+| Hermes             | JS engine        |         | Fine-tuned JS engine for RN                                                                                               |
+| Jest               | Test Runner      | v29     | Standard test runner for JS apps                                                                                          |
+
+<p align="right">(<a href="#title">back to top</a>)</p>
+
+## Getting Started
+
+### Prerequisites
+
+- React Native Development Environment
+
+  Please follow the guide to set up your development environment. https://reactnative.dev/docs/environment-setup?guide=native
+
+
+### Installation
+
+1. Clone the repo
+   ```sh
+   git clone https://github.com/antinucleus/survey-application
+   ```
+1. Navigate to the Survey Application directory
+   ```sh
+   cd survet-application
+   ```
+1. Install NPM packages
+   ```sh
+   npm i
+   ```
+1. (MacOS only) Install Cocoa packages
+   ```sh
+   npx pod-install
+   ```
+1. Start metro server
+   ```js
+   yarn start
+   ```
+1. Start application
+   1. Android
+      ```sh
+      yarn android
+      ```
+   1. iOS
+      ```sh
+      yarn ios
+      ```
+
+<p align="right">(<a href="#title">back to top</a>)</p>
+
+
+## Contact
+
+Ömer Faruk Bağcı - omerfarukbagci@antinucleus.dev
+
+Project Link: https://github.com/antinucleus/survey-application
+
+<p align="right">(<a href="#title">back to top</a>)</p>
+
+<p align="right">(<a href="#title">back to top</a>)</p>

@@ -21,7 +21,9 @@ export const ButtonOption = ({ values, multipleSelection, questionIndex }: Props
   useEffect(() => {
     if (allAnswer && allAnswer[surveyKey].surveyAnswers.length > 0) {
       console.log('BUTTON OPTION', { allAnswer: allAnswer[surveyKey].surveyAnswers });
-      setButtonValues(allAnswer[surveyKey].surveyAnswers[questionIndex].answer as boolean[]);
+      if (allAnswer[surveyKey].surveyAnswers[questionIndex]) {
+        setButtonValues(allAnswer[surveyKey].surveyAnswers[questionIndex].answer as boolean[]);
+      }
     }
   }, []);
 

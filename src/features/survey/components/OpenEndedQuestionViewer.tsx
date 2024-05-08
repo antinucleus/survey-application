@@ -19,7 +19,10 @@ export const OpenEndedQuestionViewer = ({ question, show, questionIndex }: Props
   useEffect(() => {
     if (allAnswer && allAnswer[surveyKey].surveyAnswers.length > 0) {
       console.log('OPENENDED', { allAnswer: allAnswer[surveyKey].surveyAnswers });
-      setAnswer(allAnswer[surveyKey].surveyAnswers[questionIndex].answer as string);
+
+      if (allAnswer[surveyKey].surveyAnswers[questionIndex]) {
+        setAnswer(allAnswer[surveyKey].surveyAnswers[questionIndex].answer as string);
+      }
     }
   }, []);
 

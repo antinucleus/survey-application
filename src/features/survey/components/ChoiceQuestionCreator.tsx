@@ -9,7 +9,6 @@ import {
   updateChoice,
   updateChoiceOptionType,
 } from '../utils/choicesQuestionsSlice';
-import { addError, removeError, updateEmptyError } from '../utils/errorSlice';
 
 import { RootState } from '@/stores/appStore';
 
@@ -21,26 +20,12 @@ export const ChoiceQuestionCreator = () => {
 
   const handleChoiceChange = (e: string, index: number) => {
     dispatch(updateChoice({ value: e, index }));
-
-    if (e.length === 0) {
-      dispatch(addError('choiceErrors'));
-    } else {
-      dispatch(removeError({ key: 'choiceErrors', index }));
-    }
   };
-
   const handleAddChoice = () => {
     dispatch(addChoice(''));
-
-    dispatch(addError('choiceErrors'));
   };
   const handleRemoveChoice = (index: number) => {
     dispatch(deleteChoice(index));
-    dispatch(removeError({ key: 'choiceErrors', index }));
-
-    // if (choices.length === 0) {
-    //   dispatch(updateEmptyError(true));
-    // }
   };
   const handleChoiceOptionTypeChange = (optionType: ChoiceOptionTypes) => {
     dispatch(updateChoiceOptionType(optionType));
@@ -77,6 +62,7 @@ export const ChoiceQuestionCreator = () => {
                 mode="flat"
                 value={choice}
                 onChangeText={(e) => handleChoiceChange(e, i)}
+                error={choice === ''}
                 right={
                   <TextInput.Icon
                     onPress={() => handleRemoveChoice(i)}
@@ -85,14 +71,16 @@ export const ChoiceQuestionCreator = () => {
                   />
                 }
               />
-              <HelperText type="error" visible={choice.length === 0}>
+              <HelperText type="error" visible={choice === ''}>
                 Choice can not be empty
               </HelperText>
             </View>
           ))}
         </ScrollView>
       ) : (
-        <Text style={styles.noChoiceText}>There is no choice yet</Text>
+        <HelperText type="error" visible={choices.length === 0} style={styles.noChoiceText}>
+          No choices added yet
+        </HelperText>
       )}
 
       <IconButton mode="contained" icon="plus" size={20} onPress={handleAddChoice} />
@@ -113,6 +101,7 @@ const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'space-between',
     alignItems: 'center',
+    flexWrap: 'wrap',
   },
   optionButton: {},
   optionsContainer: { marginTop: 20 },

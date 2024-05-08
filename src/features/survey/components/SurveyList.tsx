@@ -1,5 +1,4 @@
 import { useNavigation } from '@react-navigation/native';
-import { useEffect } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { Button, Divider, List, Text } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,7 +8,6 @@ import { updateCurrentSurveyKey } from '../utils/currentSurveyPropertiesSlice';
 import { formatStorageKey } from '../utils/formatStorageKey';
 
 import { RootState } from '@/stores/appStore';
-import { initAnswer, resetAllAnswer, setAllAnswer } from '@/utils/allAnswerSlice';
 import { setQuestion } from '@/utils/allQuestionSlice';
 import { deleteStoreValue, getStoreValue } from '@/utils/storage';
 
@@ -19,16 +17,10 @@ export const SurveyList = () => {
   const allSurveys = useSelector((state: RootState) => state.allSurvey.surveys);
   const allAnswer = useSelector((state: RootState) => state.allAnswer.answers);
 
-  useEffect(() => {
-    console.log('SURVRY ANSWERS INITIATED');
-    for (const s of allSurveys) {
-      dispatch(initAnswer([{ surveyAnswers: [], title: s.title }]));
-    }
-  }, []);
-
   const handleOpenSurvey = async (survey: any, title: string, index: number) => {
     dispatch(updateCurrentSurveyKey(index));
-    console.log({ allAnswer });
+
+    console.log({ survey: allAnswer[index], surKey: index, insideTitle: title });
 
     console.log('KEY::', formatStorageKey(title));
     const ans = await getStoreValue(formatStorageKey(title));
@@ -36,10 +28,6 @@ export const SurveyList = () => {
     // if (ans) {
     //   dispatch(setAllAnswer(ans));
     // }
-
-    for (const s of allSurveys) {
-      dispatch(initAnswer([{ surveyAnswers: [], title: s.title }]));
-    }
 
     dispatch(setQuestion(survey));
 

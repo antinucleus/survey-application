@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import {
   TextInput,
@@ -42,15 +43,25 @@ type Props = {
 export const CreateQuestionForm = ({ modalVisibility, handleCloseQuestionForm }: Props) => {
   const { dark } = useTheme();
   const dispatch = useDispatch();
+  const [errors, setErrors] = useState(false);
   const { questionType, questionOperation, questionKey } = useSelector(
     (state: RootState) => state.currentQuestionProperties,
   );
   const choicesQuestion = useSelector((state: RootState) => state.choicesQuestion);
   const sliderQuestion = useSelector((state: RootState) => state.sliderQuestion);
   const openEndedQuestion = useSelector((state: RootState) => state.openEndedQuestion);
-  // const { choiceErrors, openEndedErrors, sliderErrors, emptyError } = useSelector(
-  //   (state: RootState) => state.error,
-  // );
+
+  useEffect(() => {
+    if (questionType === 'Multiple Choice') {
+      const res = choicesQuestion.choices.values.some((v) => v === '');
+      if (res) {
+        setErrors(true);
+      } else {
+        setErrors(false);
+      }
+    } else if (questionType === 'Slider') {
+    }
+  }, [choicesQuestion, questionType]);
 
   let question = '';
   let updateFunc: any;
@@ -110,7 +121,7 @@ export const CreateQuestionForm = ({ modalVisibility, handleCloseQuestionForm }:
           {
             backgroundColor: dark ? 'black' : 'white',
             height:
-              questionType === 'Slider' || questionType === 'Open-ended Question' ? '40%' : '70%',
+              questionType === 'Slider' || questionType === 'Open-ended Question' ? '60%' : '70%',
           },
         ]}
         dismissable={false}
@@ -121,22 +132,24 @@ export const CreateQuestionForm = ({ modalVisibility, handleCloseQuestionForm }:
             mode="contained"
             onPress={handleSaveChoices}
             disabled={
-              question.length === 0
-              // choiceErrors.length > 0 ||
+              question === '' ||
+              errors ||
+              (questionType === 'Multiple Choice' && choicesQuestion.choices.values.length === 0)
               // sliderErrors.length > 0 ||
               // openEndedErrors.length > 0
             }>
             Save Question
           </Button>
-          {questionType === 'Multiple Choice' && (
-            <View style={styles.switchContainer}>
-              <Text style={styles.multipleSelectionText}>Multiple selection</Text>
-              <Switch
-                value={choicesQuestion.choices.multipleSelection}
-                onValueChange={handleSwitchValueChange as () => void}
-              />
-            </View>
-          )}
+          {questionType === 'Multiple Choice' &&
+            choicesQuestion.choices.optionType !== 'Radio Button' && (
+              <View style={styles.switchContainer}>
+                <Text style={styles.multipleSelectionText}>Multiple selection</Text>
+                <Switch
+                  value={choicesQuestion.choices.multipleSelection}
+                  onValueChange={handleSwitchValueChange as () => void}
+                />
+              </View>
+            )}
         </View>
 
         <View style={styles.questionContainer}>

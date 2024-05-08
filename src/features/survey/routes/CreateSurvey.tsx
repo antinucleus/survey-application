@@ -8,6 +8,7 @@ import { CreateQuestionForm, QuestionTypesMenu, QuestionsList } from '../compone
 import { SurveyRoutesScreenNavigationProp } from '../types';
 
 import { RootState } from '@/stores/appStore';
+import { addEmptyAnswer, initAnswer } from '@/utils/allAnswerSlice';
 import { addSurvey } from '@/utils/allSurveySlice';
 
 export const CreateSurvey = () => {
@@ -37,12 +38,14 @@ export const CreateSurvey = () => {
     }
 
     if (disable === false) {
+      console.log('CERATE SURVEY:', surveyTitle);
+      dispatch(addEmptyAnswer({ surveyAnswers: [], title: surveyTitle }));
       dispatch(addSurvey({ survey: allQuestions, title: surveyTitle }));
       setShowMessage('Survey created');
 
       setTimeout(() => {
         navigation.navigate('Landing');
-      }, 5000);
+      }, 1000);
     }
   };
 
@@ -74,7 +77,9 @@ export const CreateSurvey = () => {
             listItemOnPress={handleOpenQuestionForm}
           />
         ) : (
-          <Text> There is no question yet</Text>
+          <HelperText type="error" visible={allQuestions.length === 0}>
+            No questions added yet
+          </HelperText>
         )}
         <View style={styles.menuContainer}>
           <QuestionTypesMenu menuItemOnPress={handleOpenQuestionForm} />

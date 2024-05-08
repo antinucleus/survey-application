@@ -1,7 +1,6 @@
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { Button, Divider, IconButton, List } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';
-import { z } from 'zod';
 
 import { QuestionTypes } from '../types';
 import { setChoices, ChoicesQuestionState } from '../utils/choicesQuestionsSlice';
@@ -66,7 +65,7 @@ export const QuestionsList = ({ listItemOnPress, handleSave, error }: Props) => 
           mode="contained"
           onPress={handleSave}
           disabled={error}>
-          Save
+          Save Survey
         </Button>
         <Divider />
       </View>
@@ -111,6 +110,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  saveButton: { width: '30%', marginBottom: 10 },
+  saveButton: { width: '50%', marginBottom: 10 },
   saveButtonContainer: { padding: 10, marginBottom: 10 },
 });

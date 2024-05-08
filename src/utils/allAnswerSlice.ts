@@ -27,6 +27,9 @@ export const allAnswerSlice = createSlice({
   name: 'allAnswer',
   initialState,
   reducers: {
+    addEmptyAnswer: (state, action: PayloadAction<SurveyAnswer>) => {
+      state.answers.push(action.payload);
+    },
     initAnswer: (state, action: PayloadAction<SurveyAnswer[]>) => {
       for (const sa of action.payload) {
         state.answers.push(sa);
@@ -54,5 +57,6 @@ export const allAnswerSlice = createSlice({
   },
 });
 
-export const { updateAllAnswer, setAllAnswer, resetAllAnswer, initAnswer } = allAnswerSlice.actions;
+export const { updateAllAnswer, setAllAnswer, resetAllAnswer, initAnswer, addEmptyAnswer } =
+  allAnswerSlice.actions;
 export default allAnswerSlice.reducer;

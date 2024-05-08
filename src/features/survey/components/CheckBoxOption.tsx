@@ -23,9 +23,11 @@ export const CheckBoxOption = ({ values, multipleSelection, questionIndex }: Pro
   useEffect(() => {
     if (allAnswer && allAnswer[surveyKey].surveyAnswers.length > 0) {
       console.log('CHECKBOX OPTION', { allAnswer: allAnswer[surveyKey].surveyAnswers });
-      setCheckBoxValues(
-        allAnswer[surveyKey].surveyAnswers[questionIndex].answer as CheckBoxStatus[],
-      );
+      if (allAnswer[surveyKey].surveyAnswers[questionIndex]) {
+        setCheckBoxValues(
+          allAnswer[surveyKey].surveyAnswers[questionIndex].answer as CheckBoxStatus[],
+        );
+      }
     }
   }, []);
 

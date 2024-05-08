@@ -1,17 +1,28 @@
 import { useNavigation } from '@react-navigation/native';
+import { useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import { Button, Surface, Text } from 'react-native-paper';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { SurveyList } from '../components/SurveyList';
 import { SurveyRoutesScreenNavigationProp } from '../types';
 
+import { RootState } from '@/stores/appStore';
+import { initAnswer } from '@/utils/allAnswerSlice';
 import { setQuestion } from '@/utils/allQuestionSlice';
 
 export const Landing = () => {
   const name = 'Tester';
   const navigation = useNavigation<SurveyRoutesScreenNavigationProp>();
   const dispatch = useDispatch();
+  const allSurveys = useSelector((state: RootState) => state.allSurvey.surveys);
+  const allAnswer = useSelector((state: RootState) => state.allAnswer.answers);
+
+  useEffect(() => {
+    for (const s of allSurveys) {
+      dispatch(initAnswer([{ surveyAnswers: [], title: s.title }]));
+    }
+  }, []);
 
   const handleNavigateCreateSurvey = () => {
     dispatch(setQuestion([]));

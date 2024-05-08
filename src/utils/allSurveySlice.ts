@@ -21,7 +21,7 @@ export const allSurveySlice = createSlice({
   initialState,
   reducers: {
     addSurvey: (state, action: PayloadAction<Survey>) => {
-      state.surveys.unshift(action.payload);
+      state.surveys.push(action.payload);
     },
 
     deleteQuestion: (state, action: PayloadAction<number>) => {

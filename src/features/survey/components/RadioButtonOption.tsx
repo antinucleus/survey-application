@@ -23,7 +23,9 @@ export const RadioButtonOption = ({ values, questionIndex }: Props) => {
   useEffect(() => {
     if (allAnswer && allAnswer[surveyKey].surveyAnswers.length > 0) {
       console.log('RADIO OPTION', { allAnswer: allAnswer[surveyKey].surveyAnswers });
-      setRadioValue(allAnswer[surveyKey].surveyAnswers[questionIndex].answer as RadioStatus);
+      if (allAnswer[surveyKey].surveyAnswers[questionIndex]) {
+        setRadioValue(allAnswer[surveyKey].surveyAnswers[questionIndex].answer as RadioStatus);
+      }
     }
   }, []);
 

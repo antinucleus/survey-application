@@ -1,5 +1,5 @@
 import { StyleSheet, View } from 'react-native';
-import { Text, TextInput, useTheme } from 'react-native-paper';
+import { HelperText, Text, TextInput, useTheme } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { updateSlider } from '../utils/sliderQuestionSlice';
@@ -9,6 +9,7 @@ import { RootState } from '@/stores/appStore';
 export const SliderQuestionCreator = () => {
   const { dark } = useTheme();
   const dispatch = useDispatch();
+
   const { max, min } = useSelector((state: RootState) => state.sliderQuestion.slider.values);
 
   const handleOnMinimumValueChange = (e: string) => dispatch(updateSlider({ min: Number(e) }));
@@ -25,7 +26,11 @@ export const SliderQuestionCreator = () => {
           label="Minimum value"
           value={String(min)}
           onChangeText={handleOnMinimumValueChange}
+          error={min >= max}
         />
+        <HelperText type="error" visible={min >= max}>
+          Min value must be smaller than max value{' '}
+        </HelperText>
       </View>
 
       <View style={styles.textInputContainer}>
@@ -38,7 +43,11 @@ export const SliderQuestionCreator = () => {
           label="Maximum value"
           value={String(max)}
           onChangeText={handleOnMaximumValueChange}
+          error={min >= max}
         />
+        <HelperText type="error" visible={min >= max}>
+          Max value must be greater than min value
+        </HelperText>
       </View>
     </View>
   );
@@ -47,11 +56,12 @@ export const SliderQuestionCreator = () => {
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flex: 1,
+    justifyContent: 'center',
   },
+  innerContainer: { flexDirection: 'row' },
   maxValueTextInput: { width: '100%' },
   minValueTextInput: { width: '100%' },
   sliderTitle: { marginBottom: 10 },
-  textInputContainer: { marginVertical: 5, alignItems: 'center' },
+  textInputContainer: { marginVertical: 5, width: '100%' },
 });

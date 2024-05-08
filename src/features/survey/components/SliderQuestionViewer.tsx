@@ -19,14 +19,22 @@ export const SliderQuestionViewer = ({ question, show, questionIndex }: Props) =
 
   useEffect(() => {
     if (allAnswer && allAnswer[surveyKey].surveyAnswers.length > 0) {
-      console.log('SLIDER', { allAnswer: allAnswer[surveyKey].surveyAnswers });
-      setSliderValue(allAnswer[surveyKey].surveyAnswers[questionIndex].answer as number);
+      console.log('SLIDER', {
+        allAnswer: allAnswer[surveyKey].surveyAnswers,
+        surveyKey,
+        questionIndex,
+      });
+
+      if (allAnswer[surveyKey].surveyAnswers[questionIndex]) {
+        setSliderValue(allAnswer[surveyKey].surveyAnswers[questionIndex].answer as number);
+      }
     }
   }, []);
 
   const handleSliderChange = (v: number) => setSliderValue(v);
 
   const handleSlideCompleted = (v: number) => {
+    console.log('PUSHHHHHHHHHHHHHH');
     dispatch(
       updateAllAnswer({
         answer: { answer: v, type: 'Slider' },

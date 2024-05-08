@@ -18,10 +18,14 @@ export const CheckBoxOption = ({ values, multipleSelection, questionIndex }: Pro
   const dispatch = useDispatch();
   const [checkBoxValues, setCheckBoxValues] = useState<CheckBoxStatus[]>([]);
   const allAnswer = useSelector((state: RootState) => state.allAnswer.answers);
+  const { surveyKey } = useSelector((state: RootState) => state.currentSurveyProperties);
 
   useEffect(() => {
-    if (allAnswer && allAnswer.length > 0) {
-      setCheckBoxValues(allAnswer[questionIndex].answer as CheckBoxStatus[]);
+    if (allAnswer && allAnswer[surveyKey].surveyAnswers.length > 0) {
+      console.log('CHECKBOX OPTION', { allAnswer: allAnswer[surveyKey].surveyAnswers });
+      setCheckBoxValues(
+        allAnswer[surveyKey].surveyAnswers[questionIndex].answer as CheckBoxStatus[],
+      );
     }
   }, []);
 
@@ -41,6 +45,7 @@ export const CheckBoxOption = ({ values, multipleSelection, questionIndex }: Pro
       updateAllAnswer({
         answer: { answer: currentCheckBoxValues, type: 'Multiple Choice' },
         answerIndex: questionIndex,
+        surveyIndex: surveyKey,
       }),
     );
   };

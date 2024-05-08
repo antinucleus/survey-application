@@ -18,10 +18,12 @@ export const RadioButtonOption = ({ values, questionIndex }: Props) => {
   const dispatch = useDispatch();
   const [radioValue, setRadioValue] = useState<RadioStatus>('unchecked');
   const allAnswer = useSelector((state: RootState) => state.allAnswer.answers);
+  const { surveyKey } = useSelector((state: RootState) => state.currentSurveyProperties);
 
   useEffect(() => {
-    if (allAnswer && allAnswer.length > 0) {
-      setRadioValue(allAnswer[questionIndex].answer as RadioStatus);
+    if (allAnswer && allAnswer[surveyKey].surveyAnswers.length > 0) {
+      console.log('RADIO OPTION', { allAnswer: allAnswer[surveyKey].surveyAnswers });
+      setRadioValue(allAnswer[surveyKey].surveyAnswers[questionIndex].answer as RadioStatus);
     }
   }, []);
 
@@ -32,6 +34,7 @@ export const RadioButtonOption = ({ values, questionIndex }: Props) => {
       updateAllAnswer({
         answer: { answer: value as RadioStatus, type: 'Multiple Choice' },
         answerIndex: questionIndex,
+        surveyIndex: surveyKey,
       }),
     );
   };

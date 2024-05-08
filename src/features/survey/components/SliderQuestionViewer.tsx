@@ -15,11 +15,12 @@ export const SliderQuestionViewer = ({ question, show, questionIndex }: Props) =
   const dispatch = useDispatch();
   const [sliderValue, setSliderValue] = useState(question.slider.values.min);
   const allAnswer = useSelector((state: RootState) => state.allAnswer.answers);
+  const { surveyKey } = useSelector((state: RootState) => state.currentSurveyProperties);
 
   useEffect(() => {
-    console.log({ allAnswer });
-    if (allAnswer && allAnswer[questionIndex] !== undefined) {
-      setSliderValue(allAnswer[questionIndex].answer as number);
+    if (allAnswer && allAnswer[surveyKey].surveyAnswers.length > 0) {
+      console.log('SLIDER', { allAnswer: allAnswer[surveyKey].surveyAnswers });
+      setSliderValue(allAnswer[surveyKey].surveyAnswers[questionIndex].answer as number);
     }
   }, []);
 
@@ -30,6 +31,7 @@ export const SliderQuestionViewer = ({ question, show, questionIndex }: Props) =
       updateAllAnswer({
         answer: { answer: v, type: 'Slider' },
         answerIndex: questionIndex,
+        surveyIndex: surveyKey,
       }),
     );
   };

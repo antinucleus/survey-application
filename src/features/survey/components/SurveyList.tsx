@@ -1,13 +1,15 @@
 import { useNavigation } from '@react-navigation/native';
+import { useEffect } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { Button, Divider, List, Text } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { SurveyRoutesScreenNavigationProp } from '../types';
+import { updateCurrentSurveyKey } from '../utils/currentSurveyPropertiesSlice';
 import { formatStorageKey } from '../utils/formatStorageKey';
 
 import { RootState } from '@/stores/appStore';
-import { resetAllAnswer, setAllAnswer } from '@/utils/allAnswerSlice';
+import { initAnswer, resetAllAnswer, setAllAnswer } from '@/utils/allAnswerSlice';
 import { setQuestion } from '@/utils/allQuestionSlice';
 import { deleteStoreValue, getStoreValue } from '@/utils/storage';
 
@@ -15,13 +17,28 @@ export const SurveyList = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation<SurveyRoutesScreenNavigationProp>();
   const allSurveys = useSelector((state: RootState) => state.allSurvey.surveys);
+  const allAnswer = useSelector((state: RootState) => state.allAnswer.answers);
 
-  const handleOpenSurvey = async (survey: any, title: string) => {
+  useEffect(() => {
+    console.log('SURVRY ANSWERS INITIATED');
+    for (const s of allSurveys) {
+      dispatch(initAnswer([{ surveyAnswers: [], title: s.title }]));
+    }
+  }, []);
+
+  const handleOpenSurvey = async (survey: any, title: string, index: number) => {
+    dispatch(updateCurrentSurveyKey(index));
+    console.log({ allAnswer });
+
     console.log('KEY::', formatStorageKey(title));
     const ans = await getStoreValue(formatStorageKey(title));
 
-    if (ans) {
-      dispatch(setAllAnswer(ans));
+    // if (ans) {
+    //   dispatch(setAllAnswer(ans));
+    // }
+
+    for (const s of allSurveys) {
+      dispatch(initAnswer([{ surveyAnswers: [], title: s.title }]));
     }
 
     dispatch(setQuestion(survey));
@@ -47,8 +64,8 @@ export const SurveyList = () => {
 
   return (
     <View style={styles.container}>
-      {/* <Button onPress={deleteItems}>Delete Values</Button>
-      <Button onPress={getItems}>Get ALl Values</Button> */}
+      <Button onPress={deleteItems}>Delete Values</Button>
+      <Button onPress={getItems}>Get ALl Values</Button>
       <Text variant="headlineSmall" style={{ alignSelf: 'center', marginBottom: 10 }}>
         Survey List
       </Text>
@@ -56,7 +73,7 @@ export const SurveyList = () => {
         {allSurveys.map(({ survey, title }, i) => (
           <View style={styles.listItemContainer} key={`List-item-${i}-${title}`}>
             <List.Item
-              onPress={() => handleOpenSurvey(survey, title)}
+              onPress={() => handleOpenSurvey(survey, title, i)}
               title={title}
               descriptionNumberOfLines={4}
             />

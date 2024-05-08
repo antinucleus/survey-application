@@ -8,7 +8,7 @@ import Animated, {
   withDelay,
   withTiming,
 } from 'react-native-reanimated';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { ChoiceQuestionViewer } from '../components/ChoiceQuestionViewer';
 import { OpenEndedQuestionViewer } from '../components/OpenEndedQuestionViewer';
@@ -16,13 +16,11 @@ import { Progress } from '../components/Progress';
 import { SliderQuestionViewer } from '../components/SliderQuestionViewer';
 import { SurveyRoutesScreenNavigationProp, TakeSurveyScreenRouteProp } from '../types/SurveyRoutes';
 import { ChoicesQuestionState } from '../utils/choicesQuestionsSlice';
-import { updateCurrentAnswerKey } from '../utils/currentAnswerPropertiesSlice';
 import { formatStorageKey } from '../utils/formatStorageKey';
 import { OpenEndedQuestionState } from '../utils/openEndedQuestionSlice';
 import { SliderQuestionState } from '../utils/sliderQuestionSlice';
 
 import { RootState } from '@/stores/appStore';
-import { resetAllAnswer } from '@/utils/allAnswerSlice';
 import { saveItem } from '@/utils/storage';
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
@@ -31,10 +29,10 @@ export const TakeSurvey = () => {
   const route = useRoute<TakeSurveyScreenRouteProp>();
   const navigation = useNavigation<SurveyRoutesScreenNavigationProp>();
 
-  const dispatch = useDispatch();
   const { dark } = useTheme();
   const allQuestions = useSelector((state: RootState) => state.allQuestion.questions);
   const allAnswer = useSelector((state: RootState) => state.allAnswer.answers);
+  const { surveyKey } = useSelector((state: RootState) => state.currentSurveyProperties);
   const [showMessage, setShowMessage] = useState('');
   const [current, setCurrent] = useState(0);
   const [disableButton, setDisableButton] = useState(false);
@@ -66,7 +64,6 @@ export const TakeSurvey = () => {
   const handleChangeQuestion = (direction: number) => {
     setDisableButton(true);
     removeTheQuestionAnimation(direction);
-    dispatch(updateCurrentAnswerKey(current));
 
     setTimeout(() => {
       setCurrent((c) => c + direction);
@@ -79,7 +76,7 @@ export const TakeSurvey = () => {
   };
 
   const handleSaveSurvey = async () => {
-    if (allAnswer.length !== allQuestions.length) {
+    if (allAnswer[surveyKey].surveyAnswers.length !== allQuestions.length) {
       console.log('ERROR COMPLETE ALL QUESTIONS');
     } else {
       setSavingSurvey(true);
@@ -89,7 +86,7 @@ export const TakeSurvey = () => {
       if (result) {
         setShowMessage('Survey saved');
         setTimeout(() => {
-          dispatch(resetAllAnswer());
+          // dispatch(resetAllAnswer());
           setSavingSurvey(false);
         }, 500);
         setTimeout(() => {

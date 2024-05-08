@@ -14,10 +14,12 @@ export const OpenEndedQuestionViewer = ({ question, show, questionIndex }: Props
   const dispatch = useDispatch();
   const [answer, setAnswer] = useState('');
   const allAnswer = useSelector((state: RootState) => state.allAnswer.answers);
+  const { surveyKey } = useSelector((state: RootState) => state.currentSurveyProperties);
 
   useEffect(() => {
-    if (allAnswer && allAnswer.length > 0) {
-      setAnswer(allAnswer[questionIndex].answer as string);
+    if (allAnswer && allAnswer[surveyKey].surveyAnswers.length > 0) {
+      console.log('OPENENDED', { allAnswer: allAnswer[surveyKey].surveyAnswers });
+      setAnswer(allAnswer[surveyKey].surveyAnswers[questionIndex].answer as string);
     }
   }, []);
 
@@ -26,6 +28,7 @@ export const OpenEndedQuestionViewer = ({ question, show, questionIndex }: Props
       updateAllAnswer({
         answer: { answer: e, type: 'Open-ended Question' },
         answerIndex: questionIndex,
+        surveyIndex: surveyKey,
       }),
     );
     setAnswer(e);

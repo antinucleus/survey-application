@@ -16,10 +16,12 @@ export const ButtonOption = ({ values, multipleSelection, questionIndex }: Props
   const dispatch = useDispatch();
   const [buttonValues, setButtonValues] = useState<boolean[]>([]);
   const allAnswer = useSelector((state: RootState) => state.allAnswer.answers);
+  const { surveyKey } = useSelector((state: RootState) => state.currentSurveyProperties);
 
   useEffect(() => {
-    if (allAnswer && allAnswer.length > 0) {
-      setButtonValues(allAnswer[questionIndex].answer as boolean[]);
+    if (allAnswer && allAnswer[surveyKey].surveyAnswers.length > 0) {
+      console.log('BUTTON OPTION', { allAnswer: allAnswer[surveyKey].surveyAnswers });
+      setButtonValues(allAnswer[surveyKey].surveyAnswers[questionIndex].answer as boolean[]);
     }
   }, []);
 
@@ -37,6 +39,7 @@ export const ButtonOption = ({ values, multipleSelection, questionIndex }: Props
       updateAllAnswer({
         answer: { answer: currentButtonValues, type: 'Multiple Choice' },
         answerIndex: questionIndex,
+        surveyIndex: surveyKey,
       }),
     );
     setButtonValues(currentButtonValues);

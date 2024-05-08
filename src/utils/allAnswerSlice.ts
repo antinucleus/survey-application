@@ -5,13 +5,18 @@ import { CheckBoxStatus, QuestionTypes, RadioStatus } from '@/features/survey/ty
 
 type AnswerTypes = RadioStatus | CheckBoxStatus[] | boolean[] | string | number;
 
-export type Answer = {
+export type SingleAnswer = {
   answer: AnswerTypes;
   type: QuestionTypes;
 };
 
+export type SurveyAnswer = {
+  title: string;
+  surveyAnswers: SingleAnswer[];
+};
+
 export interface AllAnswerState {
-  answers: Answer[];
+  answers: SurveyAnswer[];
 }
 
 const initialState: AllAnswerState = {
@@ -22,16 +27,24 @@ export const allAnswerSlice = createSlice({
   name: 'allAnswer',
   initialState,
   reducers: {
-    updateAllAnswer: (state, action: PayloadAction<{ answer: Answer; answerIndex: number }>) => {
-      const { answerIndex, answer } = action.payload;
-
-      if (state.answers[answerIndex] === undefined) {
-        state.answers.push(answer);
-      } else {
-        state.answers[answerIndex] = answer;
+    initAnswer: (state, action: PayloadAction<SurveyAnswer[]>) => {
+      for (const sa of action.payload) {
+        state.answers.push(sa);
       }
     },
-    setAllAnswer: (state, action: PayloadAction<Answer[]>) => {
+    updateAllAnswer: (
+      state,
+      action: PayloadAction<{ answer: SingleAnswer; answerIndex: number; surveyIndex: number }>,
+    ) => {
+      const { answerIndex, answer, surveyIndex } = action.payload;
+
+      if (state.answers[surveyIndex].surveyAnswers[answerIndex] === undefined) {
+        state.answers[surveyIndex].surveyAnswers.push(answer);
+      } else {
+        state.answers[surveyIndex].surveyAnswers[answerIndex] = answer;
+      }
+    },
+    setAllAnswer: (state, action: PayloadAction<SurveyAnswer[]>) => {
       state.answers = action.payload;
     },
 
@@ -41,5 +54,5 @@ export const allAnswerSlice = createSlice({
   },
 });
 
-export const { updateAllAnswer, setAllAnswer, resetAllAnswer } = allAnswerSlice.actions;
+export const { updateAllAnswer, setAllAnswer, resetAllAnswer, initAnswer } = allAnswerSlice.actions;
 export default allAnswerSlice.reducer;

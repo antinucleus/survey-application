@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 import choicesQuestionReducer from '@/features/survey/utils/choicesQuestionsSlice';
-import currentAnswerPropertiesReducer from '@/features/survey/utils/currentAnswerPropertiesSlice';
 import currentQuestionPropertiesReducer from '@/features/survey/utils/currentQuestionPropertiesSlice';
+import currentSurveyPropertiesReducer from '@/features/survey/utils/currentSurveyPropertiesSlice';
 import errorReducer from '@/features/survey/utils/errorSlice';
 import openEndedQuestionReducer from '@/features/survey/utils/openEndedQuestionSlice';
 import sliderQuestionReducer from '@/features/survey/utils/sliderQuestionSlice';
@@ -16,7 +16,7 @@ export const store = configureStore({
     choicesQuestion: choicesQuestionReducer,
     sliderQuestion: sliderQuestionReducer,
     currentQuestionProperties: currentQuestionPropertiesReducer,
-    currentAnswerProperties: currentAnswerPropertiesReducer,
+    currentSurveyProperties: currentSurveyPropertiesReducer,
     openEndedQuestion: openEndedQuestionReducer,
     allQuestion: allQuestionReducer,
     allAnswer: allAnswerReducer,

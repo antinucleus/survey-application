@@ -33,12 +33,7 @@ export const CreateSurvey = () => {
   const onDismissSnackbar = () => setShowMessage('');
 
   const handleSaveSurvey = () => {
-    for (const q of allQuestions) {
-      console.log(q.question);
-    }
-
     if (disable === false) {
-      console.log('CERATE SURVEY:', surveyTitle);
       dispatch(addEmptyAnswer({ surveyAnswers: [], title: surveyTitle }));
       dispatch(addSurvey({ survey: allQuestions, title: surveyTitle }));
       setShowMessage('Survey created');

@@ -12,11 +12,10 @@ import { initAnswer } from '@/utils/allAnswerSlice';
 import { setQuestion } from '@/utils/allQuestionSlice';
 
 export const Landing = () => {
-  const name = 'Tester';
   const navigation = useNavigation<SurveyRoutesScreenNavigationProp>();
   const dispatch = useDispatch();
   const allSurveys = useSelector((state: RootState) => state.allSurvey.surveys);
-  const allAnswer = useSelector((state: RootState) => state.allAnswer.answers);
+  const { nickname } = useSelector((state: RootState) => state.userInfo);
 
   useEffect(() => {
     for (const s of allSurveys) {
@@ -32,7 +31,7 @@ export const Landing = () => {
   return (
     <Surface style={styles.container}>
       <SurveyList />
-      <Text>Welcome {name} </Text>
+      <Text>Welcome {nickname} </Text>
       <Button onPress={handleNavigateCreateSurvey}>Create Survey</Button>
     </Surface>
   );

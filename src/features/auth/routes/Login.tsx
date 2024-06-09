@@ -55,7 +55,7 @@ export const Login = () => {
         error={nickname === ''}
       />
       <HelperText style={styles.helperText} type="error" visible={nickname === ''}>
-        Nickname can not be empty{' '}
+        Nickname can not be empty
       </HelperText>
 
       <TextInput
@@ -74,7 +74,7 @@ export const Login = () => {
         error={password === ''}
       />
       <HelperText style={styles.helperText} type="error" visible={password === ''}>
-        Password can not be empty{' '}
+        Password can not be empty
       </HelperText>
 
       <Button
@@ -87,14 +87,14 @@ export const Login = () => {
       </Button>
 
       <View style={styles.bottomText}>
-        <Text>Üye değil misiniz?</Text>
+        <Text>No a member ?</Text>
         <Button
           compact
           mode="text"
           rippleColor="rgba(0, 0, 255, 0.05)"
           textColor="blue"
           onPress={handleCreateAccount}>
-          Hesap Oluştur
+          Create an Account
         </Button>
       </View>
     </Surface>

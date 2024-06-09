@@ -86,7 +86,6 @@ export const TakeSurvey = () => {
       if (result) {
         setShowMessage('Survey saved');
         setTimeout(() => {
-          // dispatch(resetAllAnswer());
           setSavingSurvey(false);
         }, 500);
         setTimeout(() => {

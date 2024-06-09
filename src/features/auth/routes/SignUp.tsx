@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, ScrollView } from 'react-native';
 import { Surface, TextInput, Button, Text, HelperText } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 
@@ -46,80 +46,89 @@ export const SignUp = () => {
 
   return (
     <Surface style={styles.container}>
-      <Text>Cinsiyetinizi Seçiniz</Text>
-      <View style={styles.gender}>
-        <Button onPress={() => handleGenderChange(0)} mode={gender === 0 ? 'contained' : 'text'}>
-          Erkek
-        </Button>
-        <Button onPress={() => handleGenderChange(1)} mode={gender === 1 ? 'contained' : 'text'}>
-          {' '}
-          Kadın
-        </Button>
-      </View>
-      <TextInput
-        label="Email"
-        mode="outlined"
-        style={styles.textInput}
-        value={email}
-        error={email === ''}
-        onChangeText={handleEmailChange}
-      />
-      <HelperText style={styles.helperText} type="error" visible={email === ''}>
-        Email can not be empty
-      </HelperText>
+      <ScrollView contentContainerStyle={styles.contentContainer}>
+        <Text>Select yout gender</Text>
+        <View style={styles.gender}>
+          <Button
+            theme={{ roundness: 2 }}
+            onPress={() => handleGenderChange(0)}
+            mode={gender === 0 ? 'contained' : 'text'}>
+            Male
+          </Button>
+          <Button
+            theme={{ roundness: 2 }}
+            onPress={() => handleGenderChange(1)}
+            mode={gender === 1 ? 'contained' : 'text'}>
+            Female
+          </Button>
+        </View>
+        <TextInput
+          inputMode="email"
+          textContentType="emailAddress"
+          label="Email"
+          mode="outlined"
+          style={styles.textInput}
+          value={email}
+          error={email === ''}
+          onChangeText={handleEmailChange}
+        />
+        <HelperText style={styles.helperText} type="error" visible={email === ''}>
+          Email can not be empty
+        </HelperText>
 
-      <TextInput
-        label="Nickname"
-        mode="outlined"
-        style={styles.textInput}
-        value={nickname}
-        onChangeText={handleNicknameChange}
-        error={nickname === ''}
-      />
-      <HelperText style={styles.helperText} type="error" visible={nickname === ''}>
-        Nickname can not be empty
-      </HelperText>
+        <TextInput
+          label="Nickname"
+          mode="outlined"
+          style={styles.textInput}
+          value={nickname}
+          onChangeText={handleNicknameChange}
+          error={nickname === ''}
+        />
+        <HelperText style={styles.helperText} type="error" visible={nickname === ''}>
+          Nickname can not be empty
+        </HelperText>
 
-      <TextInput
-        label="Password"
-        mode="outlined"
-        value={password}
-        style={styles.textInput}
-        secureTextEntry={showPassword}
-        onChangeText={handlePasswordChange}
-        error={password === ''}
-        right={
-          <TextInput.Icon
-            onPress={handleTextInputPress}
-            icon={`${showPassword ? 'eye-off' : 'eye'}`}
-          />
-        }
-      />
+        <TextInput
+          label="Password"
+          mode="outlined"
+          value={password}
+          style={styles.textInput}
+          secureTextEntry={showPassword}
+          onChangeText={handlePasswordChange}
+          error={password === ''}
+          right={
+            <TextInput.Icon
+              onPress={handleTextInputPress}
+              icon={`${showPassword ? 'eye-off' : 'eye'}`}
+            />
+          }
+        />
 
-      <HelperText style={styles.helperText} type="error" visible={password === ''}>
-        Password can not be empty
-      </HelperText>
+        <HelperText style={styles.helperText} type="error" visible={password === ''}>
+          Password can not be empty
+        </HelperText>
 
-      <Button
-        style={styles.signUp}
-        mode="contained"
-        onPress={handleSignUp}
-        disabled={email === '' || password === '' || nickname === '' || loading}
-        loading={loading}>
-        Sign Up
-      </Button>
-
-      <View style={styles.bottomText}>
-        <Text>Hesabın var mı?</Text>
         <Button
-          compact
-          mode="text"
-          rippleColor="rgba(0, 0, 255, 0.05)"
-          textColor="blue"
-          onPress={handleLogin}>
-          Giriş Yap
+          style={styles.signUp}
+          mode="contained"
+          onPress={handleSignUp}
+          disabled={email === '' || password === '' || nickname === '' || loading}
+          loading={loading}>
+          Sign Up
         </Button>
-      </View>
+
+        <View style={styles.bottomText}>
+          <Text>Already have an account ?</Text>
+          <Button
+            compact
+            mode="text"
+            rippleColor="rgba(0, 0, 255, 0.05)"
+            textColor="blue"
+            onPress={handleLogin}>
+            Log In
+          </Button>
+        </View>
+      </ScrollView>
     </Surface>
   );
 };
@@ -135,10 +144,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     height: '100%',
+  },
+  contentContainer: {
     padding: 10,
     justifyContent: 'center',
     alignItems: 'center',
   },
+
   gender: { flexDirection: 'row', justifyContent: 'space-evenly', width: '100%', marginTop: 10 },
   helperText: { alignSelf: 'flex-start' },
   signUp: {

@@ -55,18 +55,19 @@
 //
 
 ### Tech Stack
-| Library            | Category         | Version | Description                                                                                                               |
-| ------------------ | ---------------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
-| Expo               | Mobile Framework | v50     | An open-source platform for making universal native apps for Android, iOS, and the web with JavaScript and React.         |
-| React              | UI Framework     | v18     | The most popular UI framework in the world                                                                                |
-| TypeScript         | Language         | v5      | Static typechecking                                                                                                       |
-| React Navigation   | Navigation       | v6      | Performant and consistent navigation framework                                                                            |
-| React Native Paper | UI               | v5      | Material Design for React Native                                                                                          |
-| Redux              | State Management | v9      | Widely used state-management                                                                                              |
-| axios              | REST client      | v1      | Communicate with back-end                                                                                                 |
-| Flipper            | Debugger         |         | Native debugging                                                                                                          |
-| Hermes             | JS engine        |         | Fine-tuned JS engine for RN                                                                                               |
-| Jest               | Test Runner      | v29     | Standard test runner for JS apps                                                                                          |
+
+| Library            | Category         | Version | Description                                                                                                       |
+| ------------------ | ---------------- | ------- | ----------------------------------------------------------------------------------------------------------------- |
+| Expo               | Mobile Framework | v50     | An open-source platform for making universal native apps for Android, iOS, and the web with JavaScript and React. |
+| React              | UI Framework     | v18     | The most popular UI framework in the world                                                                        |
+| TypeScript         | Language         | v5      | Static typechecking                                                                                               |
+| React Navigation   | Navigation       | v6      | Performant and consistent navigation framework                                                                    |
+| React Native Paper | UI               | v5      | Material Design for React Native                                                                                  |
+| Redux              | State Management | v9      | Widely used state-management                                                                                      |
+| axios              | REST client      | v1      | Communicate with back-end                                                                                         |
+| Flipper            | Debugger         |         | Native debugging                                                                                                  |
+| Hermes             | JS engine        |         | Fine-tuned JS engine for RN                                                                                       |
+| Jest               | Test Runner      | v29     | Standard test runner for JS apps                                                                                  |
 
 <p align="right">(<a href="#title">back to top</a>)</p>
 
@@ -77,7 +78,6 @@
 - React Native Development Environment
 
   Please follow the guide to set up your development environment. https://reactnative.dev/docs/environment-setup?guide=native
-
 
 ### Installation
 
@@ -112,7 +112,6 @@
       ```
 
 <p align="right">(<a href="#title">back to top</a>)</p>
-
 
 ## Contact
 

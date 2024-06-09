@@ -18,9 +18,7 @@ export const Landing = () => {
   const { nickname } = useSelector((state: RootState) => state.userInfo);
 
   useEffect(() => {
-    for (const s of allSurveys) {
-      dispatch(initAnswer([{ surveyAnswers: [], title: s.title }]));
-    }
+    allSurveys.forEach(() => dispatch(initAnswer([{ surveyAnswers: [] }])));
   }, []);
 
   const handleNavigateCreateSurvey = () => {

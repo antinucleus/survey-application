@@ -13,17 +13,11 @@ type Props = { question: SliderQuestionState; show: boolean; questionIndex: numb
 
 export const SliderQuestionViewer = ({ question, show, questionIndex }: Props) => {
   const dispatch = useDispatch();
-  const [sliderValue, setSliderValue] = useState(question.slider.values.min);
-  const allAnswer = useSelector((state: RootState) => state.allAnswer.answers);
   const { surveyKey } = useSelector((state: RootState) => state.currentSurveyProperties);
-
-  useEffect(() => {
-    if (allAnswer && allAnswer[surveyKey].surveyAnswers.length > 0) {
-      if (allAnswer[surveyKey].surveyAnswers[questionIndex]) {
-        setSliderValue(allAnswer[surveyKey].surveyAnswers[questionIndex].answer as number);
-      }
-    }
-  }, []);
+  const allAnswer = useSelector((state: RootState) => state.allAnswer);
+  const [sliderValue, setSliderValue] = useState(
+    allAnswer[surveyKey].surveyAnswers[questionIndex].answer as number,
+  );
 
   const handleSliderChange = (v: number) => setSliderValue(v);
 

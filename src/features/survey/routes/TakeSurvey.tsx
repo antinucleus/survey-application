@@ -1,5 +1,5 @@
 import { useRoute, useNavigation } from '@react-navigation/native';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Dimensions, StyleSheet, View } from 'react-native';
 import { Surface, useTheme, Button, Snackbar } from 'react-native-paper';
 import Animated, {
@@ -31,7 +31,7 @@ export const TakeSurvey = () => {
 
   const { dark } = useTheme();
   const allQuestions = useSelector((state: RootState) => state.allQuestion.questions);
-  const allAnswer = useSelector((state: RootState) => state.allAnswer.answers);
+  const allAnswer = useSelector((state: RootState) => state.allAnswer);
   const { surveyKey } = useSelector((state: RootState) => state.currentSurveyProperties);
   const [showMessage, setShowMessage] = useState('');
   const [current, setCurrent] = useState(0);
@@ -76,7 +76,7 @@ export const TakeSurvey = () => {
   };
 
   const handleSaveSurvey = async () => {
-    if (allAnswer[surveyKey].surveyAnswers.length !== allQuestions.length) {
+    if (allAnswer[surveyKey].surveyAnswers.some((v) => v.answer === undefined)) {
       console.log('ERROR COMPLETE ALL QUESTIONS');
     } else {
       setSavingSurvey(true);
@@ -157,7 +157,9 @@ export const TakeSurvey = () => {
             loading={savingSurvey}
             onPress={handleSaveSurvey}
             style={[styles.bottomButtons, { width: '50%' }]}
-            disabled={disableButton || allAnswer[current] === undefined}>
+            disabled={
+              disableButton || allAnswer[surveyKey].surveyAnswers[current].answer === undefined
+            }>
             Complete
           </Button>
         ) : (
@@ -168,7 +170,7 @@ export const TakeSurvey = () => {
             disabled={
               current === allQuestions.length - 1 ||
               disableButton ||
-              allAnswer[current] === undefined
+              allAnswer[surveyKey].surveyAnswers[current].answer === undefined
             }>
             Next
           </Button>

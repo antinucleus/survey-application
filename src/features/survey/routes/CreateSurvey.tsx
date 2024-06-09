@@ -1,20 +1,21 @@
 import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { HelperText, Snackbar, Surface, Text, TextInput, Title } from 'react-native-paper';
+import { HelperText, Snackbar, Surface, TextInput, Title } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { CreateQuestionForm, QuestionTypesMenu, QuestionsList } from '../components';
 import { SurveyRoutesScreenNavigationProp } from '../types';
 
 import { RootState } from '@/stores/appStore';
-import { addEmptyAnswer, initAnswer } from '@/utils/allAnswerSlice';
+import { addEmptyAnswer, initAnswer, initSingleAnswer } from '@/utils/allAnswerSlice';
 import { addSurvey } from '@/utils/allSurveySlice';
 
 export const CreateSurvey = () => {
   const navigation = useNavigation<SurveyRoutesScreenNavigationProp>();
   const dispatch = useDispatch();
   const allQuestions = useSelector((state: RootState) => state.allQuestion.questions);
+  const allSurveys = useSelector((state: RootState) => state.allSurvey.surveys);
   const [modalVisibility, setModalVisibility] = useState(false);
   const [surveyTitle, setSurveyTitle] = useState('');
   const [showMessage, setShowMessage] = useState('');
@@ -34,7 +35,7 @@ export const CreateSurvey = () => {
 
   const handleSaveSurvey = () => {
     if (disable === false) {
-      dispatch(addEmptyAnswer({ surveyAnswers: [], title: surveyTitle }));
+      allSurveys.forEach(() => dispatch(initSingleAnswer({ surveyAnswers: [] })));
       dispatch(addSurvey({ survey: allQuestions, title: surveyTitle }));
       setShowMessage('Survey created');
 

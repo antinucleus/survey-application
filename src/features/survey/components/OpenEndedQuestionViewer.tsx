@@ -12,17 +12,11 @@ type Props = { question: OpenEndedQuestionState; show: boolean; questionIndex: n
 
 export const OpenEndedQuestionViewer = ({ question, show, questionIndex }: Props) => {
   const dispatch = useDispatch();
-  const [answer, setAnswer] = useState('');
-  const allAnswer = useSelector((state: RootState) => state.allAnswer.answers);
+  const allAnswer = useSelector((state: RootState) => state.allAnswer);
   const { surveyKey } = useSelector((state: RootState) => state.currentSurveyProperties);
-
-  useEffect(() => {
-    if (allAnswer && allAnswer[surveyKey].surveyAnswers.length > 0) {
-      if (allAnswer[surveyKey].surveyAnswers[questionIndex]) {
-        setAnswer(allAnswer[surveyKey].surveyAnswers[questionIndex].answer as string);
-      }
-    }
-  }, []);
+  const [answer, setAnswer] = useState(
+    allAnswer[surveyKey].surveyAnswers[questionIndex].answer as string,
+  );
 
   const handleAnswerChange = (e: string) => {
     dispatch(
@@ -32,6 +26,7 @@ export const OpenEndedQuestionViewer = ({ question, show, questionIndex }: Props
         surveyIndex: surveyKey,
       }),
     );
+
     setAnswer(e);
   };
 

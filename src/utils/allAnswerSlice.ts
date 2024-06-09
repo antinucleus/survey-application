@@ -6,49 +6,56 @@ import { CheckBoxStatus, QuestionTypes, RadioStatus } from '@/features/survey/ty
 type AnswerTypes = RadioStatus | CheckBoxStatus[] | boolean[] | string | number;
 
 export type SingleAnswer = {
-  answer: AnswerTypes;
+  answer?: AnswerTypes;
   type: QuestionTypes;
 };
 
 export type SurveyAnswer = {
-  title: string;
   surveyAnswers: SingleAnswer[];
 };
 
-export interface AllAnswerState {
-  answers: SurveyAnswer[];
-}
-
-const initialState: AllAnswerState = {
-  answers: [],
-};
+const initialState: SurveyAnswer[] = [];
 
 export const allAnswerSlice = createSlice({
   name: 'allAnswer',
   initialState,
   reducers: {
-    addEmptyAnswer: (state, action: PayloadAction<SurveyAnswer>) => {
-      state.answers.push(action.payload);
-    },
-    initAnswer: (state, action: PayloadAction<SurveyAnswer[]>) => {
-      for (const sa of action.payload) {
-        state.answers.push(sa);
+    addEmptyAnswer: (
+      state,
+      action: PayloadAction<{ answer: SingleAnswer; surveyIndex: number; answerIndex: number }>,
+    ) => {
+      const { surveyIndex, answer, answerIndex } = action.payload;
+
+      if (state[surveyIndex].surveyAnswers[answerIndex] === undefined) {
+        state[surveyIndex].surveyAnswers.push(answer);
       }
     },
+
+    initSingleAnswer: (state, action: PayloadAction<SurveyAnswer>) => {
+      state.push(action.payload);
+    },
+
+    initAnswer: (state, action: PayloadAction<SurveyAnswer[]>) => {
+      for (const sa of action.payload) {
+        state.push(sa);
+      }
+    },
+
     updateAllAnswer: (
       state,
       action: PayloadAction<{ answer: SingleAnswer; answerIndex: number; surveyIndex: number }>,
     ) => {
       const { answerIndex, answer, surveyIndex } = action.payload;
 
-      if (state.answers[surveyIndex].surveyAnswers[answerIndex] === undefined) {
-        state.answers[surveyIndex].surveyAnswers.push(answer);
+      if (state[surveyIndex].surveyAnswers[answerIndex] === undefined) {
+        state[surveyIndex].surveyAnswers.push(answer);
       } else {
-        state.answers[surveyIndex].surveyAnswers[answerIndex] = answer;
+        state[surveyIndex].surveyAnswers[answerIndex] = answer;
       }
     },
+
     setAllAnswer: (state, action: PayloadAction<SurveyAnswer[]>) => {
-      state.answers = action.payload;
+      state = action.payload;
     },
 
     resetAllAnswer: (state) => {
@@ -57,6 +64,13 @@ export const allAnswerSlice = createSlice({
   },
 });
 
-export const { updateAllAnswer, setAllAnswer, resetAllAnswer, initAnswer, addEmptyAnswer } =
-  allAnswerSlice.actions;
+export const {
+  updateAllAnswer,
+  setAllAnswer,
+  resetAllAnswer,
+  initAnswer,
+  initSingleAnswer,
+  addEmptyAnswer,
+} = allAnswerSlice.actions;
+
 export default allAnswerSlice.reducer;

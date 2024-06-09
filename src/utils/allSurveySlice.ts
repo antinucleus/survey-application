@@ -23,7 +23,7 @@ export const allSurveySlice = createSlice({
     addSurvey: (state, action: PayloadAction<Survey>) => {
       state.surveys.push(action.payload);
     },
-
+    // change deleteQuestion with deleteSurvey
     deleteQuestion: (state, action: PayloadAction<number>) => {
       state.surveys.splice(action.payload, 1);
     },

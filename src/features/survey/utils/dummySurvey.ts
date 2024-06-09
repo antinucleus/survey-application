@@ -1,49 +1,81 @@
 const survey1 = [
   {
-    question: { slider: { question: 'Slider 1', values: { max: 200, min: 10 } } },
-    type: 'Slider',
-  },
-  {
-    question: { slider: { question: 'Slider 2', values: { max: 5, min: -5 } } },
+    question: {
+      slider: {
+        question: 'Slider type question 1 (min: 5, max: 20)',
+        values: { max: 20, min: 5 },
+      },
+    },
     type: 'Slider',
   },
 ];
 
 const survey2 = [
   {
-    question: { openEnded: { question: 'Open ended 1 max len 10', values: { maxLength: 10 } } },
+    question: {
+      openEnded: {
+        question: 'Open-ended type question 1 (max length 50)',
+        values: { maxLength: 50 },
+      },
+    },
     type: 'Open-ended Question',
   },
   {
-    question: { openEnded: { question: 'Open ended 2 max len 100', values: { maxLength: 100 } } },
-    type: 'Open-ended Question',
+    question: {
+      choices: {
+        multipleSelection: true,
+        optionType: 'Button',
+        question: 'Multiple choice type question (multiple selection | option type = button)',
+        values: ['Test1', 'Test2', 'Test3', 'Test4', 'Test5', 'Test6', 'Long long long long text'],
+      },
+    },
+    type: 'Multiple Choice',
   },
 ];
 
 const survey3 = [
   {
-    question: { slider: { question: 'Slider 1', values: { max: 200, min: 10 } } },
+    question: {
+      slider: {
+        question: 'Slider type question 1 (min: 10, max: 200)',
+        values: { max: 200, min: 10 },
+      },
+    },
     type: 'Slider',
   },
   {
-    question: { slider: { question: 'Slider 2', values: { max: 5, min: -5 } } },
+    question: {
+      slider: {
+        question: 'Slider type question 2 (min: -5, max: 5)',
+        values: { max: 5, min: -5 },
+      },
+    },
     type: 'Slider',
   },
   {
-    question: { openEnded: { question: 'Open ended 1 max len 10', values: { maxLength: 10 } } },
+    question: {
+      openEnded: {
+        question: 'Open-ended type question 1 (max length 21)',
+        values: { maxLength: 21 },
+      },
+    },
     type: 'Open-ended Question',
   },
   {
-    question: { openEnded: { question: 'Open ended 2 max len 100', values: { maxLength: 100 } } },
+    question: {
+      openEnded: {
+        question: 'Open-ended type question 2 (max length 8)',
+        values: { maxLength: 8 },
+      },
+    },
     type: 'Open-ended Question',
   },
-
   {
     question: {
       choices: {
         multipleSelection: false,
         optionType: 'Button',
-        question: 'Single selection button type option question test2',
+        question: 'Multiple choice type question (single selection | option type = button)',
         values: ['Test1', 'Test2', 'Test3', 'Test4'],
       },
     },
@@ -54,7 +86,7 @@ const survey3 = [
       choices: {
         multipleSelection: true,
         optionType: 'Button',
-        question: 'Multiple selection button type option question test example',
+        question: 'Multiple choice type question (multiple selection | option type = button)',
         values: ['Test1', 'Test2', 'Test3', 'Test4', 'Test5', 'Test6', 'Long long long long text'],
       },
     },
@@ -65,7 +97,7 @@ const survey3 = [
       choices: {
         multipleSelection: false,
         optionType: 'Check Box',
-        question: 'Single selection question test example',
+        question: 'Multiple choice type question (single selection | option type = check box)',
         values: ['Yes', 'No'],
       },
     },
@@ -76,8 +108,8 @@ const survey3 = [
       choices: {
         multipleSelection: true,
         optionType: 'Check Box',
-        question: 'Multiple selection question test example',
-        values: ['Yes', 'No'],
+        question: 'Multiple choice type question (multiple selection | option type = check box)',
+        values: ['Black', 'White', 'Green', 'Red'],
       },
     },
     type: 'Multiple Choice',
@@ -88,8 +120,8 @@ const survey3 = [
       choices: {
         multipleSelection: false,
         optionType: 'Radio Button',
-        question: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-        values: ['test', 'sefasfsf', 'sdfsdf'],
+        question: 'Multiple choice type question (single selection | option type = radio button)',
+        values: ['choice 1', 'choice 2', 'choice 3'],
       },
     },
     type: 'Multiple Choice',
@@ -116,7 +148,7 @@ const survey3 = [
 ];
 
 export const dummySurveys = [
-  { title: 'Dummy Test Survey 1', survey: survey1 },
-  { title: 'Dummy Test Survey 2', survey: survey2 },
-  { title: 'Dummy Test Survey 3', survey: survey3 },
+  { title: 'Test Survey 1', survey: survey1 },
+  { title: 'Test Survey 2', survey: survey2 },
+  { title: 'Test Survey 3', survey: survey3 },
 ];

@@ -17,14 +17,12 @@ type Props = {
 export const RadioButtonOption = ({ values, questionIndex }: Props) => {
   const dispatch = useDispatch();
   const [radioValue, setRadioValue] = useState<RadioStatus>('unchecked');
-  const allAnswer = useSelector((state: RootState) => state.allAnswer.answers);
+  const allAnswer = useSelector((state: RootState) => state.allAnswer);
   const { surveyKey } = useSelector((state: RootState) => state.currentSurveyProperties);
 
   useEffect(() => {
-    if (allAnswer && allAnswer[surveyKey].surveyAnswers.length > 0) {
-      if (allAnswer[surveyKey].surveyAnswers[questionIndex]) {
-        setRadioValue(allAnswer[surveyKey].surveyAnswers[questionIndex].answer as RadioStatus);
-      }
+    if (allAnswer[surveyKey].surveyAnswers[questionIndex].answer) {
+      setRadioValue(allAnswer[surveyKey].surveyAnswers[questionIndex].answer as RadioStatus);
     }
   }, []);
 

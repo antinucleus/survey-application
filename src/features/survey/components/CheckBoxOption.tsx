@@ -17,16 +17,14 @@ type Props = {
 export const CheckBoxOption = ({ values, multipleSelection, questionIndex }: Props) => {
   const dispatch = useDispatch();
   const [checkBoxValues, setCheckBoxValues] = useState<CheckBoxStatus[]>([]);
-  const allAnswer = useSelector((state: RootState) => state.allAnswer.answers);
+  const allAnswer = useSelector((state: RootState) => state.allAnswer);
   const { surveyKey } = useSelector((state: RootState) => state.currentSurveyProperties);
 
   useEffect(() => {
-    if (allAnswer && allAnswer[surveyKey].surveyAnswers.length > 0) {
-      if (allAnswer[surveyKey].surveyAnswers[questionIndex]) {
-        setCheckBoxValues(
-          allAnswer[surveyKey].surveyAnswers[questionIndex].answer as CheckBoxStatus[],
-        );
-      }
+    if (allAnswer[surveyKey].surveyAnswers[questionIndex].answer) {
+      setCheckBoxValues(
+        allAnswer[surveyKey].surveyAnswers[questionIndex].answer as CheckBoxStatus[],
+      );
     }
   }, []);
 

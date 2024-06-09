@@ -7,6 +7,7 @@ import { SurveyRoutesScreenNavigationProp } from '../types';
 import { updateCurrentSurveyKey } from '../utils/currentSurveyPropertiesSlice';
 
 import { RootState } from '@/stores/appStore';
+import { addEmptyAnswer } from '@/utils/allAnswerSlice';
 import { setQuestion } from '@/utils/allQuestionSlice';
 
 export const SurveyList = () => {
@@ -16,8 +17,17 @@ export const SurveyList = () => {
 
   const handleOpenSurvey = async (survey: any, title: string, index: number) => {
     dispatch(updateCurrentSurveyKey(index));
-
     dispatch(setQuestion(survey));
+
+    for (let i = 0; i < survey.length; i++) {
+      dispatch(
+        addEmptyAnswer({
+          answer: { type: survey[i].type },
+          surveyIndex: index,
+          answerIndex: i,
+        }),
+      );
+    }
 
     navigation.navigate('TakeSurvey', { surveyTitle: title });
   };

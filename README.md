@@ -12,25 +12,7 @@
   </p>
 </div>
 
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#tech-stack">Tech Stack</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#contact">Contact</a></li>
-  </ol>
-</details>
+
 
 ## About The Project
 
@@ -38,21 +20,18 @@
 
 ### Demo
 
-//
 
-### Screenshots
 
-#### Create Survey
+<div align="center">
+  <p>Create Survey</p>
+  <img src="https://github.com/antinucleus/repo-medias/blob/main/survey-application/create%20survey.gif" height="400"/>
+</div>
 
-//
 
-#### Take Survey
-
-//
-
-#### Loading
-
-//
+<div align="center">
+  <p>Take Survey</p>
+  <img src="https://github.com/antinucleus/repo-medias/blob/main/survey-application/take%20survey.gif" height="400"/>
+</div>
 
 ### Tech Stack
 

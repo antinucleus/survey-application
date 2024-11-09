@@ -6,9 +6,9 @@
     A mobile application that provides creating and taking surveys.
     <br />
     <br />
-    <a href="https://github.com/chsdwn/survey-application/issues">Report Bug</a>
+    <a href="https://github.com/antinucleus/survey-application/issues">Report Bug</a>
     ·
-    <a href="https://github.com/chsdwn/survey-application//issues">Request Feature</a>
+    <a href="https://github.com/antinucleus/survey-application//issues">Request Feature</a>
   </p>
 </div>
 
